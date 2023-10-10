@@ -9,12 +9,12 @@
     "clean": "rm -rf .turbo node_modules",
     "lint": "eslint .",
     "format": "prettier --check \"**/*.{mjs,ts,md,json}\"",
-    "push": "drizzle-kit push:mysql",
+    "push": "drizzle-kit push:pg",
     "studio": "drizzle-kit studio",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@planetscale/database": "^1.11.0",
+    "@vercel/postgres": "^0.5.0",
     "drizzle-orm": "^0.28.6"
   },
   "devDependencies": {
