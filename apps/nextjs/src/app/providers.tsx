@@ -20,6 +20,7 @@ const getBaseUrl = () => {
 export function TRPCReactProvider(props: {
   children: React.ReactNode;
   headers?: Headers;
+  userId: string | null;
 }) {
   const [queryClient] = useState(
     () =>
@@ -46,6 +47,7 @@ export function TRPCReactProvider(props: {
           headers() {
             const headers = new Map(props.headers);
             headers.set("x-trpc-source", "nextjs-react");
+            headers.set("authorization", `${props.userId}`);
             return Object.fromEntries(headers);
           },
         }),

@@ -4,6 +4,14 @@ import { Inter } from "next/font/google";
 import "~/styles/globals.css";
 
 import { headers } from "next/headers";
+import {
+  auth,
+  ClerkProvider,
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+} from "@clerk/nextjs";
 
 import { TRPCReactProvider } from "./providers";
 
@@ -35,14 +43,37 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Layout(props: { children: React.ReactNode }) {
+function Header() {
   return (
-    <html lang="en">
-      <body className={["font-sans", fontSans.variable].join(" ")}>
-        <TRPCReactProvider headers={headers()}>
-          {props.children}
-        </TRPCReactProvider>
-      </body>
-    </html>
+    <header
+      style={{ display: "flex", justifyContent: "space-between", padding: 20 }}
+    >
+      <h1>My App</h1>
+      <SignedIn>
+        {/* Mount the UserButton component */}
+        <UserButton />
+      </SignedIn>
+      <SignedOut>
+        {/* Signed out users get sign in button */}
+        <SignInButton />
+      </SignedOut>
+    </header>
+  );
+}
+
+export default function Layout(props: { children: React.ReactNode }) {
+  const { userId } = auth();
+
+  return (
+    <ClerkProvider>
+      <html lang="en">
+        <body className={["font-sans", fontSans.variable].join(" ")}>
+          <TRPCReactProvider headers={headers()} userId={userId}>
+            <Header />
+            {props.children}
+          </TRPCReactProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

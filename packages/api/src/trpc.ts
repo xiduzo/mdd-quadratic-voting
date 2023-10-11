@@ -6,12 +6,12 @@
  * tl;dr - this is where all the tRPC server stuff is created and plugged in.
  * The pieces you will need to use are documented accordingly near the end
  */
+import type { User } from "@clerk/backend";
+import { Clerk } from "@clerk/backend";
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
-import { auth } from "@acme/auth";
-import type { Session } from "@acme/auth";
 import { db } from "@acme/db";
 
 /**
@@ -24,7 +24,7 @@ import { db } from "@acme/db";
  *
  */
 interface CreateContextOptions {
-  session: Session | null;
+  session: User | null;
 }
 
 /**
@@ -50,12 +50,16 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
  */
 export const createTRPCContext = async (opts: {
   req?: Request;
-  auth?: Session;
+  auth?: User;
 }) => {
-  const session = opts.auth ?? (await auth());
+  const clerk = Clerk({ secretKey: process.env.CLERK_SECRET_KEY! });
+
+  const userId = opts.req?.headers.get("authorization");
   const source = opts.req?.headers.get("x-trpc-source") ?? "unknown";
 
-  console.log(">>> tRPC Request from", source, "by", session?.user);
+  const session = userId ? await clerk.users.getUser(userId) : null;
+
+  console.log(">>> tRPC Request from", source, "by", session?.username);
 
   return createInnerTRPCContext({
     session,
@@ -109,13 +113,13 @@ export const publicProcedure = t.procedure;
  * procedure
  */
 const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
-  if (!ctx.session?.user) {
+  if (!ctx.session) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
   return next({
     ctx: {
       // infers the `session` as non-nullable
-      session: { ...ctx.session, user: ctx.session.user },
+      session: { ...ctx.session, user: ctx.session },
     },
   });
 });
