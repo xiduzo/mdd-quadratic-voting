@@ -28,6 +28,9 @@
     "clean": {
       "cache": false
     },
+    "package": {
+      "cache": false
+    },
     "//#clean": {
       "cache": false
     }
