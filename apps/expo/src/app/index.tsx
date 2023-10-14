@@ -2,16 +2,16 @@ import React, { useEffect, useRef } from "react";
 import { Animated, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Svg, { Path } from "react-native-svg";
-import { Stack } from "expo-router";
+import { useRouter } from "expo-router";
 import { useAuth, useOAuth } from "@clerk/clerk-expo";
 
+import { Egg, Votey } from "~/_components";
 import { Button } from "~/_components/Button";
-import Egg from "~/_components/Egg";
 import { Typography } from "~/_components/Typography";
-import Votey from "~/_components/Votey";
 import { useWarmUpBrowser } from "~/hooks/useWarmUpBrowser";
 
 const HomePage = () => {
+  const { replace } = useRouter();
   useWarmUpBrowser();
 
   const eggAnimation = useRef(new Animated.Value(600)).current;
@@ -25,6 +25,7 @@ const HomePage = () => {
         await startOAuthFlow();
       if (createdSessionId) {
         await setActive?.({ session: createdSessionId });
+        replace("/event/");
       } else {
         console.log({ signIn, signUp, authSessionResult });
         // Modify this code to use signIn or signUp to set this missing requirements you set in your dashboard.
@@ -36,27 +37,26 @@ const HomePage = () => {
       console.log(JSON.stringify(err, null, 2));
       console.log("error signing in", err);
     }
-  }, [startOAuthFlow]);
+  }, [startOAuthFlow, replace]);
 
   useEffect(() => {
     if (!sessionId) return;
 
-    console.log("move to overview screen", { sessionId });
-  }, [sessionId]);
+    replace("/event/");
+  }, [sessionId, replace]);
 
   useEffect(() => {
     Animated.spring(eggAnimation, {
-      toValue: 400,
+      toValue: 450,
       velocity: 100,
-      damping: 5,
+      damping: 6,
       useNativeDriver: false,
     }).start();
   });
 
   return (
     <SafeAreaView className="bg-primary px-8">
-      <Stack.Screen options={{ title: "" }} />
-      <View className="absolute -right-20 top-0">
+      <View className="absolute -right-16 top-0">
         <Animated.View style={{ marginTop: eggAnimation }}>
           <View className="absolute left-20 top-40 z-10">
             <Svg width={74} height={34}>

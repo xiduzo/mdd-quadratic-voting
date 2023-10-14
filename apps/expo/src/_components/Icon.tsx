@@ -1,8 +1,23 @@
 import type { FC } from "react";
-import { AntDesign, Feather, FontAwesome } from "@expo/vector-icons";
+import {
+  AntDesign,
+  Entypo,
+  Feather,
+  FontAwesome,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import type { IconProps } from "@expo/vector-icons/build/createIconSet";
 
 export const Icon: FC<Props> = ({ name, ...props }) => {
+  if (Object.keys(MaterialIcons.glyphMap).includes(name))
+    return (
+      <MaterialIcons
+        size={18}
+        {...props}
+        name={name as keyof typeof MaterialIcons.glyphMap}
+      />
+    );
+
   if (Object.keys(Feather.glyphMap).includes(name))
     return (
       <Feather
@@ -30,11 +45,22 @@ export const Icon: FC<Props> = ({ name, ...props }) => {
       />
     );
 
+  if (Object.keys(Entypo.glyphMap).includes(name))
+    return (
+      <Entypo
+        size={18}
+        {...props}
+        name={name as keyof typeof Entypo.glyphMap}
+      />
+    );
+
   return null;
 };
 
 export type IconName =
   | keyof typeof FontAwesome.glyphMap
   | keyof typeof AntDesign.glyphMap
-  | keyof typeof Feather.glyphMap;
+  | keyof typeof Feather.glyphMap
+  | keyof typeof MaterialIcons.glyphMap
+  | keyof typeof Entypo.glyphMap;
 type Props = IconProps<IconName>;

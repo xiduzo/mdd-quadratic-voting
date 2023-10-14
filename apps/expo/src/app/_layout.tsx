@@ -26,6 +26,7 @@ import {
   useFonts,
 } from "@expo-google-fonts/poppins";
 
+import { Header } from "~/_components/Header";
 import { TRPCProvider } from "~/utils/api";
 
 // This is the main layout of the app
@@ -65,14 +66,8 @@ const RootLayout = () => {
       }
     >
       <TRPCProvider>
-        <Stack
-          screenOptions={{
-            headerStyle: {
-              backgroundColor: "#2F4858",
-            },
-          }}
-        />
         <StatusBar />
+        <Stack screenOptions={{ header: Header }} />
       </TRPCProvider>
     </ClerkProvider>
   );

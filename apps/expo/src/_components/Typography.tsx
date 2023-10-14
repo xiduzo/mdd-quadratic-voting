@@ -29,7 +29,7 @@ const typography = cva("text-text", {
     intent: {
       "4xl": "font-Poppins_900Black text-3xl",
       "3xl": "font-Poppins_800ExtraBold text-2xl",
-      "2xl": "font-Poppins_700Bold text-xs",
+      "2xl": "font-Poppins_700Bold text-xl",
       xl: "font-Poppins_600SemiBold text-xs",
       lg: "font-Poppins_500Medium text-xs",
       base: "font-Poppins_400Regular text-base",

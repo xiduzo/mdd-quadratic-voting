@@ -47,6 +47,7 @@ const button = cva("rounded-lg border-2 flex flex-row items-center", {
     intent: {
       primary: "border-white",
       secondary: "border-primary",
+      action: "bg-white border-white",
     },
     hasIcon: {
       true: "justify-between",
@@ -54,7 +55,7 @@ const button = cva("rounded-lg border-2 flex flex-row items-center", {
     },
     size: {
       base: "py-3 px-4",
-      sm: "",
+      sm: "py-1 px-2",
     },
   },
   defaultVariants: {
