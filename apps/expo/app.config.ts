@@ -1,38 +1,40 @@
 import type { ExpoConfig } from "@expo/config";
 
 const defineConfig = (): ExpoConfig => ({
-  name: "expo",
-  slug: "expo",
-  scheme: "expo",
+  name: "votey",
+  slug: "votey",
+  scheme: "votey",
   version: "1.0.0",
   orientation: "portrait",
   icon: "./assets/icon.png",
-  userInterfaceStyle: "light",
+  userInterfaceStyle: "dark",
   splash: {
     image: "./assets/icon.png",
     resizeMode: "contain",
-    backgroundColor: "#1F104A",
+    backgroundColor: "#2F4858",
   },
   updates: {
     fallbackToCacheTimeout: 0,
   },
   assetBundlePatterns: ["**/*"],
   ios: {
-    bundleIdentifier: "your.bundle.identifier",
+    bundleIdentifier: "mdd.votey",
     supportsTablet: true,
   },
   android: {
-    package: "your.bundle.identifier",
+    package: "mdd.votey",
     adaptiveIcon: {
       foregroundImage: "./assets/icon.png",
-      backgroundColor: "#1F104A",
+      backgroundColor: "#2F4858",
     },
   },
-  // extra: {
-  //   eas: {
-  //     projectId: "your-eas-project-id",
-  //   },
-  // },
+  extra: {
+    test: "what",
+    clerkPublishableKey: process.env.CLERK_PUBLISHABLE_KEY,
+    // eas: {
+    //   projectId: "your-eas-project-id",
+    // },
+  },
   experiments: {
     tsconfigPaths: true,
     typedRoutes: true,
