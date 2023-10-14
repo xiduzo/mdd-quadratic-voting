@@ -14,16 +14,19 @@ export const Event: FC<Props> = ({
   title,
   description,
   image,
-  className,
+  extraClass,
+  size,
 }) => {
   return (
-    <View className={event({ className, isActive })}>
-      <View className="flex flex-row items-center justify-between">
+    <View className={event({ className: extraClass, isActive, size })}>
+      <View className="flex flex-row items-center justify-between gap-4">
         <View className="rounded-sm bg-white px-2">
-          <Typography className=" text-slate-900">{title}</Typography>
+          <Typography className="text-slate-900" intent="sm">
+            5 days
+          </Typography>
         </View>
         <View className="rounded-sm bg-white px-2">
-          <Typography className=" text-slate-900">
+          <Typography className="text-slate-900" intent="sm">
             {tokens}/{maxTokens}
           </Typography>
         </View>
@@ -46,17 +49,22 @@ interface Props extends VariantProps<typeof event> {
   title: string;
   description: string;
   image?: string;
-  className?: string;
+  extraClass?: string;
 }
 
-const event = cva("border-4 rounded-2xl px-5 py-7 min-w-[60vw] mx-2", {
+const event = cva("border-4 rounded-2xl", {
   variants: {
     isActive: {
       true: "border-secondary",
       false: "border-slate-900/50",
     },
+    size: {
+      base: "px-5 py-7",
+      sm: "px-3 py-5",
+    },
   },
   defaultVariants: {
     isActive: false,
+    size: "base",
   },
 });

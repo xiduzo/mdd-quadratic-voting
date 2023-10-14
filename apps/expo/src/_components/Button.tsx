@@ -13,6 +13,7 @@ export const Button: FC<Props> = ({
   startIcon,
   endIcon,
   intent,
+  size,
   ...buttonProps
 }) => {
   return (
@@ -26,10 +27,13 @@ export const Button: FC<Props> = ({
           className,
           intent,
           hasIcon: !!startIcon || !!endIcon,
+          size,
         })}
       >
         {startIcon && <Icon name={startIcon} color="white" />}
-        <Typography>{buttonProps.title}</Typography>
+        <Typography className={intent === "action" ? "text-black" : ""}>
+          {buttonProps.title}
+        </Typography>
         {endIcon && <Icon name={endIcon} color="white" />}
       </View>
     </TouchableHighlight>
@@ -55,7 +59,7 @@ const button = cva("rounded-lg border-2 flex flex-row items-center", {
     },
     size: {
       base: "py-3 px-4",
-      sm: "py-1 px-2",
+      sm: "px-1",
     },
   },
   defaultVariants: {

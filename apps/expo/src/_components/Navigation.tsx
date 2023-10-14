@@ -14,7 +14,7 @@ const menuItems = [
 
 export const Navigation: FC<Props> = ({ activeItem }) => {
   return (
-    <View className="absolute bottom-0 flex w-full flex-row justify-center">
+    <View className="absolute bottom-6 z-50 flex w-full flex-row justify-center">
       <View className="flex max-w-xs grow flex-row justify-around rounded-full bg-black/20 py-2">
         {menuItems.map((item) => (
           <View key={item.name} className="flex items-center">

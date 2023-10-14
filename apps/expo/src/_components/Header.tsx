@@ -16,10 +16,10 @@ export const Header: FC<NativeStackHeaderProps> = (props) => {
     <View
       className="flex-row items-center justify-between bg-primary px-6 pb-2"
       style={{
-        paddingTop: safeArea.top + 8,
+        paddingTop: safeArea.top,
       }}
     >
-      <View className="absolute -right-40 -top-40 h-80 w-80 rounded-full border-2 border-dashed border-secondary" />
+      <View className="absolute -right-40 -top-40 h-80 w-80 border-spacing-4 rounded-full border border-dashed border-secondary" />
 
       <View>
         {/* {props.back && props.options.headerBackVisible && (
