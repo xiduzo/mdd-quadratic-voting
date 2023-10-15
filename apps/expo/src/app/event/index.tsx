@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { Dimensions, View } from "react-native";
 import { Stack } from "expo-router";
 import type { ViewToken } from "@shopify/flash-list";
@@ -10,6 +10,8 @@ import { Event } from "./_components/Event";
 
 const EventPage = () => {
   const [activeIndex, setActiveIndex] = useState(1);
+  const flashList = useRef<FlashList<number> | null>(null);
+
   const handleViewableItemsChanged = useCallback(
     (props: { viewableItems: ViewToken[]; changed: ViewToken[] }) => {
       const activeItems = props.viewableItems.filter((item) => item.isViewable);
@@ -23,13 +25,14 @@ const EventPage = () => {
 
   return (
     <View className="bg-primary">
-      <Stack.Screen options={{ title: "Events" }} />
+      <Stack.Screen options={{ title: "Events", animation: "none" }} />
       <Navigation activeItem="events" />
       <View className="h-full w-full">
         <Typography intent="2xl" className="mb-4 mt-24 px-8">
           New
         </Typography>
         <FlashList
+          ref={flashList}
           estimatedItemSize={200}
           initialScrollIndex={activeIndex}
           decelerationRate="fast"
@@ -37,12 +40,13 @@ const EventPage = () => {
           onViewableItemsChanged={handleViewableItemsChanged}
           snapToAlignment="center"
           horizontal
-          style={{
-            marginVertical: 10,
+          contentContainerStyle={{
+            paddingHorizontal: 8,
           }}
           data={[1, 2, 3]}
-          renderItem={() => (
+          renderItem={(item) => (
             <Event
+              isActive={activeIndex === item.index}
               extraClass="min-w-[60vw] mx-4"
               title="test event"
               description="test description"

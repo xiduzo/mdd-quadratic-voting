@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import { View } from "react-native";
+import type { ViewProps } from "react-native-svg/lib/typescript/fabric/utils";
 import type { VariantProps } from "class-variance-authority";
 import { cva } from "class-variance-authority";
 
@@ -16,9 +17,13 @@ export const Event: FC<Props> = ({
   image,
   extraClass,
   size,
+  ...viewProps
 }) => {
   return (
-    <View className={event({ className: extraClass, isActive, size })}>
+    <View
+      {...viewProps}
+      className={event({ className: extraClass, isActive, size })}
+    >
       <View className="flex flex-row items-center justify-between gap-4">
         <View className="rounded-sm bg-white px-2">
           <Typography className="text-slate-900" intent="sm">
@@ -42,7 +47,7 @@ export const Event: FC<Props> = ({
   );
 };
 
-interface Props extends VariantProps<typeof event> {
+interface Props extends VariantProps<typeof event>, ViewProps {
   endDate: Date;
   tokens: number;
   maxTokens: number;
@@ -52,7 +57,7 @@ interface Props extends VariantProps<typeof event> {
   extraClass?: string;
 }
 
-const event = cva("border-4 rounded-2xl", {
+const event = cva("border-4 rounded-2xl transition-all duration-300", {
   variants: {
     isActive: {
       true: "border-secondary",

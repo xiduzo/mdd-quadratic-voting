@@ -8,11 +8,12 @@ import {
 } from "@expo/vector-icons";
 import type { IconProps } from "@expo/vector-icons/build/createIconSet";
 
-export const Icon: FC<Props> = ({ name, ...props }) => {
+export const Icon: FC<Props> = ({ name, color = "white", ...props }) => {
   if (Object.keys(MaterialIcons.glyphMap).includes(name))
     return (
       <MaterialIcons
         size={18}
+        color={color}
         {...props}
         name={name as keyof typeof MaterialIcons.glyphMap}
       />
@@ -22,6 +23,7 @@ export const Icon: FC<Props> = ({ name, ...props }) => {
     return (
       <Feather
         size={18}
+        color={color}
         {...props}
         name={name as keyof typeof Feather.glyphMap}
       />
@@ -31,6 +33,7 @@ export const Icon: FC<Props> = ({ name, ...props }) => {
     return (
       <AntDesign
         size={18}
+        color={color}
         {...props}
         name={name as keyof typeof AntDesign.glyphMap}
       />
@@ -40,6 +43,7 @@ export const Icon: FC<Props> = ({ name, ...props }) => {
     return (
       <FontAwesome
         size={18}
+        color={color}
         {...props}
         name={name as keyof typeof FontAwesome.glyphMap}
       />
@@ -49,6 +53,7 @@ export const Icon: FC<Props> = ({ name, ...props }) => {
     return (
       <Entypo
         size={18}
+        color={color}
         {...props}
         name={name as keyof typeof Entypo.glyphMap}
       />

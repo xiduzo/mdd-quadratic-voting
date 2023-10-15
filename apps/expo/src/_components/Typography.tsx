@@ -8,10 +8,11 @@ export const Typography: FC<Props> = ({
   children,
   className,
   intent,
+  dimmed,
   ...textProps
 }) => {
   return (
-    <Text {...textProps} className={typography({ className, intent })}>
+    <Text {...textProps} className={typography({ className, intent, dimmed })}>
       {children}
     </Text>
   );
@@ -34,6 +35,10 @@ const typography = cva("text-text", {
       lg: "font-Poppins_500Medium text-xs",
       base: "font-Poppins_400Regular text-base",
       sm: "font-Poppins_300Light text-xs",
+    },
+    dimmed: {
+      true: "opacity-40",
+      false: "",
     },
   },
   defaultVariants: {
