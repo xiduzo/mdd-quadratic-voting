@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { Animated, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Svg, { Path } from "react-native-svg";
-import { useRouter } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { useAuth, useOAuth } from "@clerk/clerk-expo";
 
 import { Egg, Votey } from "~/_components";
@@ -102,6 +102,9 @@ const HomePage = () => {
           title="Sign in"
           onPress={handleSignInWithDiscordPress}
         />
+        <Link href="/event/">
+          <Typography>event</Typography>
+        </Link>
       </View>
     </SafeAreaView>
   );

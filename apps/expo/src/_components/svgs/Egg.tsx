@@ -10,3 +10,12 @@ export const Egg = (props: SvgProps) => (
     />
   </Svg>
 );
+
+export const EggSmall = (props: SvgProps) => (
+  <Svg width={39} height={52} {...props}>
+    <Path
+      d="M19.5001 0C8.72923 0 0 21.2335 0 32.1752C0 43.1165 8.72923 52 19.5001 52C30.2706 52 39 43.1165 39 32.1752C39 21.2335 30.2706 0 19.5001 0Z"
+      fill={props.color ?? "#F6AE2D"}
+    />
+  </Svg>
+);

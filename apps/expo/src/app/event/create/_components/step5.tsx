@@ -17,38 +17,62 @@ export const Step5 = () => {
 
   return (
     <View className="mt-8 grow">
-      <Typography intent="4xl">Choose dates</Typography>
-      <View className="flex grow justify-center">
-        <CalendarPicker
-          nextComponent={
-            <IconButton icon="chevron-right" onPress={handlePressNext} />
+      <Typography intent="4xl" className="mb-12">
+        Choose dates
+      </Typography>
+      <CalendarPicker
+        previousComponent={
+          <IconButton
+            icon="chevron-left"
+            onPress={handleOnPressPrevious}
+            className="rounded-md"
+          />
+        }
+        nextComponent={
+          <IconButton
+            icon="chevron-right"
+            onPress={handlePressNext}
+            className="rounded-md"
+          />
+        }
+        headerWrapperStyle={
+          {
+            // backgroundColor: "green",
           }
-          previousComponent={
-            <IconButton icon="chevron-left" onPress={handleOnPressPrevious} />
+        }
+        monthYearHeaderWrapperStyle={
+          {
+            // backgroundColor: "red",
           }
-          ref={calendarRef}
-          minDate={new Date()}
-          restrictMonthNavigation
-          allowRangeSelection
-          allowBackwardRangeSelect
-          dayLabelsWrapper={{
-            borderColor: "#2F4858",
-          }}
-          todayBackgroundColor="#219EBC40"
-          customDayHeaderStyles={() => ({
-            textStyle: {
-              fontWeight: "600",
-              color: "#ffffff60",
-            },
-          })}
-          textStyle={{
-            color: "white",
-          }}
-          selectedRangeStyle={{
-            backgroundColor: "#F6AE2D",
-          }}
-        />
-      </View>
+        }
+        monthTitleStyle={{
+          fontWeight: "600",
+        }}
+        yearTitleStyle={{
+          fontWeight: "600",
+        }}
+        ref={calendarRef}
+        minDate={new Date()}
+        restrictMonthNavigation
+        allowRangeSelection
+        allowBackwardRangeSelect
+        dayLabelsWrapper={{
+          borderColor: "#2F4858",
+        }}
+        todayBackgroundColor="#219EBC"
+        customDayHeaderStyles={() => ({
+          textStyle: {
+            fontWeight: "600",
+            color: "#ffffff60",
+          },
+        })}
+        textStyle={{
+          color: "white",
+        }}
+        selectedRangeStyle={{
+          backgroundColor: "#F6AE2D",
+        }}
+      />
     </View>
   );
 };

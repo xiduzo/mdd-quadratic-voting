@@ -13,20 +13,44 @@ import { Step3 } from "./_components/step3";
 import { Step4 } from "./_components/step4";
 import { Step5 } from "./_components/step5";
 
-const formData = z.object({
+const step1 = z.object({
   imageUri: z.string(),
-  title: z.string(),
-  description: z.string(),
 });
+
+const step2 = z.object({
+  title: z.string().min(1),
+  description: z.string().min(1).max(280),
+});
+
+const step3 = z.object({
+  credits: z.number().min(10).max(999),
+});
+
+const steps = [step1, step2, step3];
+
+const formData = step1.merge(step2).merge(step3);
 
 export type FormData = z.infer<typeof formData>;
 
-const CreateEvent = () => {
-  const formMethods = useForm<FormData>();
-  const { getValues } = formMethods;
-  formMethods.watch(); // Force re-renders in a poor mans way
+const parseStep = (step: z.ZodObject<any>, values: unknown) => {
+  try {
+    console.log({ step, values });
+    step.parse(values);
+    return false;
+  } catch {
+    return true;
+  }
+};
 
-  const [stepIndex, setStepIndex] = useState(0);
+const CreateEvent = () => {
+  const formMethods = useForm<FormData>({
+    defaultValues: {
+      credits: 100,
+    },
+  });
+  const watch = formMethods.watch();
+
+  const [stepIndex, setStepIndex] = useState(2);
 
   const changeStep = useCallback(
     (next: number) => () => {
@@ -36,13 +60,10 @@ const CreateEvent = () => {
   );
 
   const shouldDisableButton = useCallback(() => {
-    if (stepIndex === 0) {
-      const imageUri = getValues("imageUri");
-      if (imageUri) return false;
-    }
+    const step = steps[stepIndex];
 
-    return true;
-  }, [stepIndex, getValues]);
+    return step ? parseStep(step, watch) : true;
+  }, [stepIndex, watch]);
 
   return (
     <View className="bg-primary">

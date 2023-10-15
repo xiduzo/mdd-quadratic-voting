@@ -29,7 +29,7 @@ export const Step2 = () => {
             className="absolute bottom-2 right-4 text-right"
             intent="sm"
           >
-            {description.length}/280
+            {description?.length ?? 0}/280
           </Typography>
         </View>
       </View>
