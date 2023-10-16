@@ -1,11 +1,14 @@
 import { useCallback, useRef } from "react";
 import { View } from "react-native";
 import CalendarPicker from "react-native-calendar-picker";
+import { useFormContext } from "react-hook-form";
 
 import { IconButton } from "~/_components/Button";
 import { Typography } from "~/_components/Typography";
+import type { FormData } from "../index";
 
 export const Step5 = () => {
+  const { setValue, getValues } = useFormContext<FormData>();
   const calendarRef = useRef<CalendarPicker | null>(null);
   const handlePressNext = useCallback(() => {
     calendarRef?.current?.handleOnPressNext();
@@ -15,12 +18,28 @@ export const Step5 = () => {
     calendarRef?.current?.handleOnPressPrevious();
   }, []);
 
+  const handleDateChange = useCallback(
+    (date: unknown, type: "START_DATE" | "END_DATE") => {
+      if (type === "START_DATE") setValue("endDate", undefined);
+
+      setValue(
+        type === "START_DATE" ? "startDate" : "endDate",
+        new Date(date as string),
+      );
+    },
+    [setValue],
+  );
+
+  console.log({ endDate: getValues("endDate") });
+
   return (
     <View className="mt-8 grow">
       <Typography intent="4xl" className="mb-12">
         Choose dates
       </Typography>
       <CalendarPicker
+        selectedStartDate={getValues("startDate")}
+        selectedEndDate={getValues("endDate")}
         previousComponent={
           <IconButton
             icon="chevron-left"
@@ -28,6 +47,7 @@ export const Step5 = () => {
             className="rounded-md"
           />
         }
+        onDateChange={handleDateChange}
         nextComponent={
           <IconButton
             icon="chevron-right"

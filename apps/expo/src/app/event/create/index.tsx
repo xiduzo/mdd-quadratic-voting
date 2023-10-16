@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import { View } from "react-native";
 import { Stack } from "expo-router";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -26,15 +27,29 @@ const step3 = z.object({
   credits: z.number().min(10).max(999),
 });
 
-const steps = [step1, step2, step3];
+const option = z.object({
+  name: z.string().min(1),
+  description: z.string().min(1).max(280),
+});
 
-const formData = step1.merge(step2).merge(step3);
+const step4 = z.object({
+  options: z.array(option).min(2),
+});
+
+const step5 = z.object({
+  startDate: z.coerce.date().optional(),
+  endDate: z.coerce.date().optional(),
+});
+
+const steps = [step1, step2, step3, step4, step5] as const;
+
+const formData = step1.merge(step2).merge(step3).merge(step4).merge(step5);
 
 export type FormData = z.infer<typeof formData>;
 
-const parseStep = (step: z.ZodObject<any>, values: unknown) => {
+const parseStep = (step: z.ZodObject<z.ZodRawShape>, values: unknown) => {
   try {
-    console.log({ step, values });
+    console.log({ step: step.shape, values });
     step.parse(values);
     return false;
   } catch {
@@ -44,13 +59,14 @@ const parseStep = (step: z.ZodObject<any>, values: unknown) => {
 
 const CreateEvent = () => {
   const formMethods = useForm<FormData>({
+    resolver: zodResolver(formData),
     defaultValues: {
       credits: 100,
     },
   });
   const watch = formMethods.watch();
 
-  const [stepIndex, setStepIndex] = useState(2);
+  const [stepIndex, setStepIndex] = useState(4);
 
   const changeStep = useCallback(
     (next: number) => () => {
@@ -64,6 +80,10 @@ const CreateEvent = () => {
 
     return step ? parseStep(step, watch) : true;
   }, [stepIndex, watch]);
+
+  const handleSubmit = useCallback((data: FormData) => {
+    console.log(data);
+  }, []);
 
   return (
     <View className="bg-primary">
@@ -101,7 +121,9 @@ const CreateEvent = () => {
           )}
           {stepIndex > 3 && (
             <Button
+              onPress={formMethods.handleSubmit(handleSubmit)}
               title="Publish"
+              disabled={shouldDisableButton()}
               className="grow"
               intent="action"
               endIcon="chevron-right"
