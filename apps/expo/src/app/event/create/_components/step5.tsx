@@ -20,6 +20,7 @@ export const Step5 = () => {
 
   const handleDateChange = useCallback(
     (date: unknown, type: "START_DATE" | "END_DATE") => {
+      if (date === null) return;
       if (type === "START_DATE") setValue("endDate", undefined);
 
       setValue(
@@ -29,8 +30,6 @@ export const Step5 = () => {
     },
     [setValue],
   );
-
-  console.log({ endDate: getValues("endDate") });
 
   return (
     <View className="mt-8 grow">

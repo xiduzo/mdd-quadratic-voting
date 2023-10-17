@@ -23,8 +23,8 @@ export const Step1 = () => {
         setImage(result.assets[0].uri);
         setValue("imageUri", result.assets[0].uri);
       }
-    } catch (e) {
-      console.log(e);
+    } catch {
+      // Do some catching
     }
   };
   return (

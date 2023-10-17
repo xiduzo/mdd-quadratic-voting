@@ -45,7 +45,7 @@ export const CreateForm = () => {
 
   return (
     <FormProvider {...formMethods}>
-      <form onSubmit={formMethods.handleSubmit(onValid, console.log)}>
+      <form onSubmit={formMethods.handleSubmit(onValid, console.error)}>
         <fieldset className="flex flex-col space-y-4">
           <legend>event</legend>
           <div>

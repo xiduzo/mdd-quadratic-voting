@@ -49,7 +49,6 @@ export type FormData = z.infer<typeof formData>;
 
 const parseStep = (step: z.ZodObject<z.ZodRawShape>, values: unknown) => {
   try {
-    console.log({ step: step.shape, values });
     step.parse(values);
     return false;
   } catch {
@@ -66,7 +65,7 @@ const CreateEvent = () => {
   });
   const watch = formMethods.watch();
 
-  const [stepIndex, setStepIndex] = useState(4);
+  const [stepIndex, setStepIndex] = useState(0);
 
   const changeStep = useCallback(
     (next: number) => () => {

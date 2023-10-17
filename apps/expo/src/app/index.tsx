@@ -21,13 +21,12 @@ const HomePage = () => {
 
   const handleSignInWithDiscordPress = React.useCallback(async () => {
     try {
-      const { createdSessionId, authSessionResult, signIn, signUp, setActive } =
-        await startOAuthFlow();
+      const { createdSessionId, setActive } = await startOAuthFlow();
       if (createdSessionId) {
         await setActive?.({ session: createdSessionId });
         replace("/event/");
       } else {
-        console.log({ signIn, signUp, authSessionResult });
+        // console.log({ signIn, signUp, authSessionResult });
         // Modify this code to use signIn or signUp to set this missing requirements you set in your dashboard.
         throw new Error(
           "There are unmet requirements, modify this else to handle them",

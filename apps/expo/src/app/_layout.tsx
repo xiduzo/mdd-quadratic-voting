@@ -53,10 +53,7 @@ const RootLayout = () => {
     Poppins_900Black_Italic,
   });
 
-  if (!fontsLoaded || fontError) {
-    console.log({ fontsLoaded, fontError });
-    return null;
-  }
+  if (!fontsLoaded || fontError) return null;
 
   return (
     <ClerkProvider
