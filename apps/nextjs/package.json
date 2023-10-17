@@ -19,7 +19,6 @@
     "@clerk/nextjs": "^4.25.3",
     "@hookform/resolvers": "^3.3.1",
     "@t3-oss/env-nextjs": "^0.7.0",
-    "@tanstack/react-query": "^4.35.7",
     "@tanstack/react-query-devtools": "^4.35.7",
     "@tanstack/react-query-next-experimental": "5.0.0-alpha.80",
     "@trpc/client": "^10.40.0",
@@ -38,6 +37,7 @@
     "@acme/prettier-config": "^0.1.0",
     "@acme/tailwind-config": "^0.1.0",
     "@acme/tsconfig": "^0.1.0",
+    "@tanstack/react-query": "5.0.0-alpha.71",
     "@types/node": "^18.17.19",
     "@types/react": "^18.2.25",
     "@types/react-dom": "^18.2.10",
@@ -55,5 +55,8 @@
       "@acme/eslint-config/react"
     ]
   },
-  "prettier": "@acme/prettier-config"
+  "prettier": "@acme/prettier-config",
+  "peerDependencies": {
+    "@tanstack/react-query": "5.0.0-alpha.71"
+  }
 }

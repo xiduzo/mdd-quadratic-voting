@@ -17,9 +17,6 @@ importers:
       '@turbo/gen':
         specifier: ^1.10.15
         version: 1.10.15(@types/node@18.17.19)(typescript@5.2.2)
-      '@types/node':
-        specifier: ^18.17.19
-        version: 18.17.19
       prettier:
         specifier: ^3.0.3
         version: 3.0.3
@@ -29,6 +26,10 @@ importers:
       typescript:
         specifier: ^5.2.2
         version: 5.2.2
+    devDependencies:
+      '@types/node':
+        specifier: ^18.17.19
+        version: 18.17.19
 
   apps/expo:
     dependencies:
@@ -92,6 +93,9 @@ importers:
       expo-linking:
         specifier: ~5.0.2
         version: 5.0.2(expo@49.0.13)
+      expo-modules-autolinking:
+        specifier: ^1.5.1
+        version: 1.5.1
       expo-router:
         specifier: 2.0.8
         version: 2.0.8(expo-constants@14.4.2)(expo-linking@5.0.2)(expo-modules-autolinking@1.5.1)(expo-status-bar@1.6.0)(expo@49.0.13)(metro@0.76.8)(react-dom@18.2.0)(react-native-gesture-handler@2.12.1)(react-native-safe-area-context@4.6.3)(react-native-screens@3.22.1)(react-native@0.72.5)(react@18.2.0)
@@ -104,11 +108,14 @@ importers:
       expo-status-bar:
         specifier: ~1.6.0
         version: 1.6.0
+      expo-updates:
+        specifier: ~0.18.16
+        version: 0.18.16(expo@49.0.13)
       expo-web-browser:
         specifier: ^12.3.2
         version: 12.3.2(expo@49.0.13)
       metro:
-        specifier: ~0.76.7
+        specifier: ~0.76.8
         version: 0.76.8
       moment:
         specifier: ^2.29.4
@@ -210,24 +217,21 @@ importers:
       '@t3-oss/env-nextjs':
         specifier: ^0.7.0
         version: 0.7.0(typescript@5.2.2)(zod@3.22.2)
-      '@tanstack/react-query':
-        specifier: ^4.35.7
-        version: 4.35.7(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0)
       '@tanstack/react-query-devtools':
         specifier: ^4.35.7
-        version: 4.35.7(@tanstack/react-query@4.35.7)(react-dom@18.2.0)(react@18.2.0)
+        version: 4.35.7(@tanstack/react-query@5.0.0-alpha.71)(react-dom@18.2.0)(react@18.2.0)
       '@tanstack/react-query-next-experimental':
         specifier: 5.0.0-alpha.80
-        version: 5.0.0-alpha.80(@tanstack/react-query@4.35.7)(next@13.5.4)(react-dom@18.2.0)(react@18.2.0)
+        version: 5.0.0-alpha.80(@tanstack/react-query@5.0.0-alpha.71)(next@13.5.4)(react-dom@18.2.0)(react@18.2.0)
       '@trpc/client':
         specifier: ^10.40.0
         version: 10.40.0(@trpc/server@10.40.0)
       '@trpc/next':
         specifier: ^10.40.0
-        version: 10.40.0(@tanstack/react-query@4.35.7)(@trpc/client@10.40.0)(@trpc/react-query@10.40.0)(@trpc/server@10.40.0)(next@13.5.4)(react-dom@18.2.0)(react@18.2.0)
+        version: 10.40.0(@tanstack/react-query@5.0.0-alpha.71)(@trpc/client@10.40.0)(@trpc/react-query@10.40.0)(@trpc/server@10.40.0)(next@13.5.4)(react-dom@18.2.0)(react@18.2.0)
       '@trpc/react-query':
         specifier: ^10.40.0
-        version: 10.40.0(@tanstack/react-query@4.35.7)(@trpc/client@10.40.0)(@trpc/server@10.40.0)(react-dom@18.2.0)(react@18.2.0)
+        version: 10.40.0(@tanstack/react-query@5.0.0-alpha.71)(@trpc/client@10.40.0)(@trpc/server@10.40.0)(react-dom@18.2.0)(react@18.2.0)
       '@trpc/server':
         specifier: ^10.40.0
         version: 10.40.0
@@ -262,6 +266,9 @@ importers:
       '@acme/tsconfig':
         specifier: ^0.1.0
         version: link:../../tooling/typescript
+      '@tanstack/react-query':
+        specifier: 5.0.0-alpha.71
+        version: 5.0.0-alpha.71(react-dom@18.2.0)(react@18.2.0)
       '@types/node':
         specifier: ^18.17.19
         version: 18.17.19
@@ -301,9 +308,6 @@ importers:
       '@trpc/server':
         specifier: ^10.40.0
         version: 10.40.0
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
       superjson:
         specifier: 2.0.0
         version: 2.0.0
@@ -326,6 +330,9 @@ importers:
       prettier:
         specifier: ^3.0.3
         version: 3.0.3
+      react:
+        specifier: 18.2.0
+        version: 18.2.0
       typescript:
         specifier: ^5.2.2
         version: 5.2.2
@@ -341,9 +348,6 @@ importers:
       drizzle-zod:
         specifier: ^0.5.1
         version: 0.5.1(drizzle-orm@0.28.6)(zod@3.22.2)
-      zod:
-        specifier: ^3.22.2
-        version: 3.22.2
     devDependencies:
       '@acme/eslint-config':
         specifier: ^0.2.0
@@ -369,6 +373,9 @@ importers:
       typescript:
         specifier: ^5.2.2
         version: 5.2.2
+      zod:
+        specifier: ^3.22.2
+        version: 3.22.2
 
   tooling/eslint:
     dependencies:
@@ -3937,7 +3944,10 @@ packages:
     resolution: {integrity: sha512-PgDJtX75ubFS0WCYFM7DqEoJ4QbxU3S5OH3gJSI40xr7UVVax3/J4CM3XUMOTs+EOT5YGEfssi3tfRVGte4DEw==}
     dev: false
 
-  /@tanstack/react-query-devtools@4.35.7(@tanstack/react-query@4.35.7)(react-dom@18.2.0)(react@18.2.0):
+  /@tanstack/query-core@5.0.0-alpha.70:
+    resolution: {integrity: sha512-JOq9ciu8647Au8rX0O9737kJ1IBAupLcI77eFc9RaubiZPr6DIurOtI2Lc4hoaJNHIofNBQUnEyifzDIHORsdA==}
+
+  /@tanstack/react-query-devtools@4.35.7(@tanstack/react-query@5.0.0-alpha.71)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-oe3reHNvXBTUvNb9jwLY8EYOXyp8Oq8/c40iwpXBnEkAtJI+RryrCXaGKFTivg72roPcYHzKILQHR9jbX8sn1Q==}
     peerDependencies:
       '@tanstack/react-query': ^4.35.7
@@ -3945,14 +3955,14 @@ packages:
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
       '@tanstack/match-sorter-utils': 8.8.4
-      '@tanstack/react-query': 4.35.7(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0)
+      '@tanstack/react-query': 5.0.0-alpha.71(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       superjson: 1.13.1
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
 
-  /@tanstack/react-query-next-experimental@5.0.0-alpha.80(@tanstack/react-query@4.35.7)(next@13.5.4)(react-dom@18.2.0)(react@18.2.0):
+  /@tanstack/react-query-next-experimental@5.0.0-alpha.80(@tanstack/react-query@5.0.0-alpha.71)(next@13.5.4)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-J+rHrE+5BVEAoZVlvp5wryBdusKDBRrzysfpgOa4t6vcVRWHgzNlmWJFHelgipdHJrA3/4D6wSir8xmkp8ijtA==}
     peerDependencies:
       '@tanstack/react-query': 5.0.0-alpha.71
@@ -3960,7 +3970,7 @@ packages:
       react: ^18.0.0
       react-dom: ^18.0.0
     dependencies:
-      '@tanstack/react-query': 4.35.7(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0)
+      '@tanstack/react-query': 5.0.0-alpha.71(react-dom@18.2.0)(react@18.2.0)
       next: 13.5.4(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -3985,6 +3995,23 @@ packages:
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
 
+  /@tanstack/react-query@5.0.0-alpha.71(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-QwP90/rqxYucCIJ/QAfBpg4ODF4ozKZIp145CElZCBkvvONGxY2Y6Z1mBPQXrync9Nb1fB4DEEVfpxEDcktogg==}
+    peerDependencies:
+      react: ^18.0.0
+      react-dom: ^18.0.0
+      react-native: '*'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+    dependencies:
+      '@tanstack/query-core': 5.0.0-alpha.70
+      client-only: 0.0.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+
   /@tootallnate/quickjs-emscripten@0.23.0:
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
     dev: false
@@ -3997,7 +4024,7 @@ packages:
       '@trpc/server': 10.40.0
     dev: false
 
-  /@trpc/next@10.40.0(@tanstack/react-query@4.35.7)(@trpc/client@10.40.0)(@trpc/react-query@10.40.0)(@trpc/server@10.40.0)(next@13.5.4)(react-dom@18.2.0)(react@18.2.0):
+  /@trpc/next@10.40.0(@tanstack/react-query@5.0.0-alpha.71)(@trpc/client@10.40.0)(@trpc/react-query@10.40.0)(@trpc/server@10.40.0)(next@13.5.4)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-GMOiN+2DIfUXxS2DuTuTT3FOzkuB5p6+1QglY5M9ywKFWBVTGkBnbLkTgoPGuglq+dPfcZbcSajRN22AUv5Qtg==}
     peerDependencies:
       '@tanstack/react-query': ^4.18.0
@@ -4008,9 +4035,9 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
-      '@tanstack/react-query': 4.35.7(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0)
+      '@tanstack/react-query': 5.0.0-alpha.71(react-dom@18.2.0)(react@18.2.0)
       '@trpc/client': 10.40.0(@trpc/server@10.40.0)
-      '@trpc/react-query': 10.40.0(@tanstack/react-query@4.35.7)(@trpc/client@10.40.0)(@trpc/server@10.40.0)(react-dom@18.2.0)(react@18.2.0)
+      '@trpc/react-query': 10.40.0(@tanstack/react-query@5.0.0-alpha.71)(@trpc/client@10.40.0)(@trpc/server@10.40.0)(react-dom@18.2.0)(react@18.2.0)
       '@trpc/server': 10.40.0
       next: 13.5.4(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
@@ -4028,6 +4055,22 @@ packages:
       react-dom: '>=16.8.0'
     dependencies:
       '@tanstack/react-query': 4.35.7(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0)
+      '@trpc/client': 10.40.0(@trpc/server@10.40.0)
+      '@trpc/server': 10.40.0
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /@trpc/react-query@10.40.0(@tanstack/react-query@5.0.0-alpha.71)(@trpc/client@10.40.0)(@trpc/server@10.40.0)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-DpJrV3lmYNo9xtPtcg49lfh9CUFap3ZivjhlSmfe4QPf7H6xBjAE+ml4OdJ0RmKvSTFvbLSOiNdB1k5O8zIdzQ==}
+    peerDependencies:
+      '@tanstack/react-query': ^4.18.0
+      '@trpc/client': 10.40.0
+      '@trpc/server': 10.40.0
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      '@tanstack/react-query': 5.0.0-alpha.71(react-dom@18.2.0)(react@18.2.0)
       '@trpc/client': 10.40.0(@trpc/server@10.40.0)
       '@trpc/server': 10.40.0
       react: 18.2.0
@@ -5465,7 +5508,6 @@ packages:
 
   /client-only@0.0.1:
     resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
-    dev: false
 
   /cliui@6.0.0:
     resolution: {integrity: sha512-t6wbgtoCXvAzst7QgXxJYqPt0usEfbgQdftEPbLL/cvv6HPE5VgvqCuAIDR0NgU52ds6rFwqrgakNLrHEjCbrQ==}
@@ -6932,6 +6974,10 @@ packages:
       expo: 49.0.13(@babel/core@7.23.0)
     dev: false
 
+  /expo-eas-client@0.6.0:
+    resolution: {integrity: sha512-FSPy0ThcJBvzEzOZVhpOrYyHgQ8U1jJ4v7u7tr1x0KOVRqyf25APEQZFxxRPn3zAYW0tQ+uDTCbrwNymFqhQfw==}
+    dev: false
+
   /expo-file-system@15.4.4(expo@49.0.13):
     resolution: {integrity: sha512-F0xS88D85F7qVQ61r0qBnzh6VW/s6iIl+VaQEEi2nAIOQHw1JIEj4yCXPLTtbyn5VmArbe2dSL3KYz1V+BLkKA==}
     peerDependencies:
@@ -6982,6 +7028,10 @@ packages:
       expo-image-loader: 4.3.0(expo@49.0.13)
     dev: false
 
+  /expo-json-utils@0.7.1:
+    resolution: {integrity: sha512-L0lyH8diXQtV0q5BLbFlcoxTqPF5im79xDHPhybB0j36xYdm65hjwRJ4yMrPIN5lR18hj48FUZeONiDHRyEvIg==}
+    dev: false
+
   /expo-keep-awake@12.3.0(expo@49.0.13):
     resolution: {integrity: sha512-ujiJg1p9EdCOYS05jh5PtUrfiZnK0yyLy+UewzqrjUqIT8eAGMQbkfOn3C3fHE7AKd5AefSMzJnS3lYZcZYHDw==}
     peerDependencies:
@@ -7001,6 +7051,12 @@ packages:
     transitivePeerDependencies:
       - expo
       - supports-color
+    dev: false
+
+  /expo-manifests@0.7.2:
+    resolution: {integrity: sha512-xlhL0XI2zw3foJ0q2Ra4ieBhU0V2yz+Rv6GpVEaaIHFlIC/Dbx+mKrX5dgenZEMERr/MG7sRJaRbAVB2PaAYhA==}
+    dependencies:
+      expo-json-utils: 0.7.1
     dev: false
 
   /expo-modules-autolinking@1.5.1:
@@ -7098,6 +7154,41 @@ packages:
 
   /expo-status-bar@1.6.0:
     resolution: {integrity: sha512-e//Oi2WPdomMlMDD3skE4+1ZarKCJ/suvcB4Jo/nO427niKug5oppcPNYO+csR6y3ZglGuypS+3pp/hJ+Xp6fQ==}
+    dev: false
+
+  /expo-structured-headers@3.3.0:
+    resolution: {integrity: sha512-t+h5Zqaukd3Tn97LaWPpibVsmiC/TFP8F+8sAUliwCSMzgcb5TATRs2NcAB+JcIr8EP3JJDyYXJrZle1cjs4mQ==}
+    dev: false
+
+  /expo-updates-interface@0.10.1(expo@49.0.13):
+    resolution: {integrity: sha512-I6JMR7EgjXwckrydDmrkBEX/iw750dcqpzQVsjznYWfi0HTEOxajLHB90fBFqQkUV5i5s4Fd3hYQ1Cn0oMzUbA==}
+    peerDependencies:
+      expo: '*'
+    dependencies:
+      expo: 49.0.13(@babel/core@7.23.0)
+    dev: false
+
+  /expo-updates@0.18.16(expo@49.0.13):
+    resolution: {integrity: sha512-5/3Yh6FHG8oRDz1pqpn7NEO6GQBH5GV/sygnkkn3JxsiXzlOsuOY7+x+gFr4CdKVyreaoJV863ZxKvxplVE4fA==}
+    hasBin: true
+    peerDependencies:
+      expo: '*'
+    dependencies:
+      '@expo/code-signing-certificates': 0.0.5
+      '@expo/config': 8.1.2
+      '@expo/config-plugins': 7.2.5
+      arg: 4.1.0
+      chalk: 4.1.2
+      expo: 49.0.13(@babel/core@7.23.0)
+      expo-eas-client: 0.6.0
+      expo-manifests: 0.7.2
+      expo-structured-headers: 3.3.0
+      expo-updates-interface: 0.10.1(expo@49.0.13)
+      fbemitter: 3.0.0
+      resolve-from: 5.0.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
     dev: false
 
   /expo-web-browser@12.3.2(expo@49.0.13):
@@ -8806,7 +8897,6 @@ packages:
     hasBin: true
     dependencies:
       js-tokens: 4.0.0
-    dev: false
 
   /lower-case-first@1.0.2:
     resolution: {integrity: sha512-UuxaYakO7XeONbKrZf5FEgkantPf5DUqDayzP5VXZrtRPdH86s4kN47I8B3TW10S4QKiE3ziHNf3kRN//okHjA==}
@@ -10621,7 +10711,6 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
-    dev: false
 
   /react-fast-compare@3.2.1:
     resolution: {integrity: sha512-xTYf9zFim2pEif/Fw16dBiXpe0hoy5PxcD8+OwBnTtNLfIm3g6WxhKNurY+6OmdH1u6Ta/W/Vl6vjbYP1MFnDg==}
@@ -10828,7 +10917,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       loose-envify: 1.4.0
-    dev: false
 
   /read-cache@1.0.0:
     resolution: {integrity: sha512-Owdv/Ft7IjOgm/i0xvNDZ1LrRANRfew4b2prF3OWMQLxLfu3bS8FVhCsrSCMK4lR56Y9ya+AThoTpDCTxCmpRA==}
@@ -11199,7 +11287,6 @@ packages:
     resolution: {integrity: sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==}
     dependencies:
       loose-envify: 1.4.0
-    dev: false
 
   /scheduler@0.24.0-canary-efb381bbf-20230505:
     resolution: {integrity: sha512-ABvovCDe/k9IluqSh4/ISoq8tIJnW8euVAWYt5j/bg6dRnqwQwiGO1F/V4AyK96NGF/FB04FhOUDuWj8IKfABA==}

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useCallback } from "react";
 import Constants from "expo-constants";
 import { Stack } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import { StatusBar } from "expo-status-bar";
+import * as Updates from "expo-updates";
 import { ClerkProvider } from "@clerk/clerk-expo";
 import {
   Poppins_100Thin,
@@ -62,6 +63,7 @@ const RootLayout = () => {
         Constants.expoConfig?.extra?.clerkPublishableKey as string
       }
     >
+      <Updater />
       <TRPCProvider>
         <StatusBar />
         <Stack screenOptions={{ header: Header }} />
@@ -88,3 +90,22 @@ const tokenCache = {
 };
 
 export default RootLayout;
+
+const Updater = () => {
+  const handleUpdate = useCallback(async ({ type }: Updates.UpdateEvent) => {
+    if (type === Updates.UpdateEventType.ERROR) {
+      // Handle error
+    } else if (type === Updates.UpdateEventType.NO_UPDATE_AVAILABLE) {
+      // Handle no update available
+    } else if (type === Updates.UpdateEventType.UPDATE_AVAILABLE) {
+      // Handle update available
+      await Updates.fetchUpdateAsync();
+
+      await Updates.reloadAsync();
+    }
+  }, []);
+
+  Updates.useUpdateEvents(handleUpdate);
+
+  return null;
+};

@@ -8,6 +8,7 @@
   "scripts": {
     "build": "turbo build",
     "clean": "git clean -xdf node_modules",
+    "eas-build-pre-install": "pnpm config set legacy-peer-deps true",
     "clean:workspaces": "turbo clean",
     "db:push": "pnpm -F db push",
     "db:studio": "pnpm -F db studio",
@@ -22,10 +23,15 @@
     "@acme/prettier-config": "^0.1.0",
     "@manypkg/cli": "^0.21.0",
     "@turbo/gen": "^1.10.15",
-    "@types/node": "^18.17.19",
     "prettier": "^3.0.3",
     "turbo": "^1.10.15",
     "typescript": "^5.2.2"
   },
-  "prettier": "@acme/prettier-config"
+  "prettier": "@acme/prettier-config",
+  "devDependencies": {
+    "@types/node": "^18.17.19"
+  },
+  "peerDependencies": {
+    "@types/node": "^18.17.19"
+  }
 }

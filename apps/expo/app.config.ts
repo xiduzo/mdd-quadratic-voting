@@ -1,10 +1,14 @@
 import type { ExpoConfig } from "@expo/config";
 
+const version = "1.0.1"; // EAS VERSION
+// Should be bumped every time a new build is made
+const buildNumber = "101"; // EAS VERSION
+
 const defineConfig = (): ExpoConfig => ({
   name: "votey",
   slug: "votey",
   scheme: "votey",
-  version: "1.0.0",
+  version,
   orientation: "portrait",
   icon: "./assets/icon.png",
   userInterfaceStyle: "dark",
@@ -22,6 +26,7 @@ const defineConfig = (): ExpoConfig => ({
     supportsTablet: true,
   },
   android: {
+    versionCode: Number(buildNumber),
     package: "mdd.votey",
     adaptiveIcon: {
       foregroundImage: "./assets/icon.png",
@@ -39,7 +44,16 @@ const defineConfig = (): ExpoConfig => ({
     tsconfigPaths: true,
     typedRoutes: true,
   },
-  plugins: ["expo-router", "./expo-plugins/with-modify-gradle.js"],
+  plugins: [
+    "expo-router",
+    "./expo-plugins/with-modify-gradle.js",
+    [
+      "expo-updates",
+      {
+        username: "xiduzo",
+      },
+    ],
+  ],
 });
 
 export default defineConfig;
