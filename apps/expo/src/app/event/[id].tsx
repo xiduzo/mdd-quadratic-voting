@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { TouchableHighlight, View } from "react-native";
 import { Stack, useGlobalSearchParams } from "expo-router";
 import { FlashList } from "@shopify/flash-list";
@@ -13,10 +13,28 @@ const EventDetailPage = () => {
   const { id } = useGlobalSearchParams();
   const { data } = api.event.byId.useQuery(id as unknown as string);
 
-  const [credits, setCredits] = useState(0);
   const [creditsSpend, setCreditsSpend] = useState<Record<string, number>>({});
-  const [_, setUpdate] = useState(true);
+
+  const [update, setUpdate] = useState(true);
   const [selectedItem, setSelectedItem] = useState("");
+
+  const credits = useMemo(() => {
+    const spend = Object.values(creditsSpend).reduce((acc, curr) => {
+      return acc + curr * curr;
+    }, 0);
+
+    console.log({ spend });
+
+    return (data?.credits ?? 100) - spend;
+  }, [creditsSpend, data, update]);
+
+  const nextCredits = useMemo(() => {
+    const current = creditsSpend[selectedItem] ?? 0;
+    const currentTokens = current + current;
+    const nextTokens = (current + 1) * (current + 1);
+
+    return Math.abs(nextTokens - currentTokens);
+  }, [creditsSpend, update, selectedItem]);
 
   const incrementCreditsSpend = useCallback(() => {
     if (!selectedItem) return;
@@ -39,7 +57,6 @@ const EventDetailPage = () => {
   useEffect(() => {
     if (!data) return;
 
-    setCredits(data.credits ?? 100);
     setCreditsSpend(
       data.options.reduce(
         (acc, option) => {
@@ -51,7 +68,7 @@ const EventDetailPage = () => {
     );
   }, [data]);
 
-  console.log(creditsSpend[selectedItem]);
+  console.log(credits, nextCredits);
 
   return (
     <View className="bg-primary">
@@ -113,21 +130,29 @@ const EventDetailPage = () => {
             </TouchableHighlight>
           )}
         />
-        <View className="mb-12 mt-8 flex-row items-center space-x-8 px-8">
+        <View className="mb-12 mt-8 flex-row items-center justify-between space-x-8 px-8">
           <View className="flex flex-row space-x-4">
             <EggButton
               icon="minus"
               onPress={decrementCreditsSpend}
-              disabled={!selectedItem}
+              disabled={
+                !selectedItem ||
+                (nextCredits > credits && (creditsSpend[selectedItem] ?? 0) < 0)
+              }
             />
-            <Typography intent="3xl">{credits}</Typography>
+            <Typography intent="3xl" className="min-w-[12vw] text-center">
+              {credits}
+            </Typography>
             <EggButton
               icon="plus"
               onPress={incrementCreditsSpend}
-              disabled={!selectedItem}
+              disabled={
+                !selectedItem ||
+                (nextCredits > credits && (creditsSpend[selectedItem] ?? 0) > 0)
+              }
             />
           </View>
-          <Button intent="action" title="Submit" />
+          <Button intent="action" title="Submit" className="grow" />
         </View>
       </View>
     </View>
