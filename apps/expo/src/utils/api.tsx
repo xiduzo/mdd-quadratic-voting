@@ -31,6 +31,7 @@ const getBaseUrl = () => {
   const localhost = debuggerHost?.split(":")[0];
 
   if (!localhost) {
+    return "https://mdd-quadratic-voting.vercel.app";
     // return "https://turbo.t3.gg";
     throw new Error(
       "Failed to get localhost. Please point to your production server.",
@@ -46,6 +47,7 @@ const getBaseUrl = () => {
 
 export function TRPCProvider(props: { children: React.ReactNode }) {
   const [queryClient] = React.useState(() => new QueryClient());
+  // const { userId } = useAuth();
   const [trpcClient] = React.useState(() =>
     api.createClient({
       transformer: superjson,
@@ -55,6 +57,7 @@ export function TRPCProvider(props: { children: React.ReactNode }) {
           headers() {
             const headers = new Map<string, string>();
             headers.set("x-trpc-source", "expo-react");
+            // if (userId) headers.set("authorization", userId);
             return Object.fromEntries(headers);
           },
         }),

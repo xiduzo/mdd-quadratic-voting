@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { Fragment } from "react";
 import type { TouchableHighlightProps } from "react-native";
-import { TouchableHighlight } from "react-native";
+import { TouchableOpacity } from "react-native";
 import type { VariantProps } from "class-variance-authority";
 import { cva } from "class-variance-authority";
 
@@ -15,16 +15,16 @@ export const EggButton: FC<Props> = ({
   ...touchableHighlightProps
 }) => {
   return (
-    <TouchableHighlight
+    <TouchableOpacity
       disabled={!!disabled}
       className={eggButton({ disabled, className })}
       {...touchableHighlightProps}
     >
       <Fragment>
-        <EggSmall className="absolute -translate-x-1 -translate-y-3 shadow-lg shadow-slate-800" />
+        <EggSmall className="absolute -translate-x-1 -translate-y-3 shadow-md shadow-slate-900" />
         <Icon name={icon} className="z-10" size={32} />
       </Fragment>
-    </TouchableHighlight>
+    </TouchableOpacity>
   );
 };
 

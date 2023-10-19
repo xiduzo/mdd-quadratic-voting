@@ -1,8 +1,8 @@
 import type { ExpoConfig } from "@expo/config";
 
-const version = "1.0.1"; // EAS VERSION
+const version = "1.0.2"; // EAS VERSION
 // Should be bumped every time a new build is made
-const buildNumber = "101"; // EAS VERSION
+const buildNumber = "15"; // EAS VERSION
 
 const defineConfig = (): ExpoConfig => ({
   name: "votey",
@@ -22,11 +22,14 @@ const defineConfig = (): ExpoConfig => ({
   },
   assetBundlePatterns: ["**/*"],
   ios: {
+    buildNumber,
     bundleIdentifier: "mdd.votey",
     supportsTablet: true,
   },
   android: {
-    versionCode: Number(buildNumber),
+    versionCode: Number(
+      version.replace(".", "").replace(".", "") + buildNumber,
+    ),
     package: "mdd.votey",
     adaptiveIcon: {
       foregroundImage: "./assets/icon.png",
@@ -34,8 +37,7 @@ const defineConfig = (): ExpoConfig => ({
     },
   },
   extra: {
-    test: "what",
-    clerkPublishableKey: process.env.CLERK_PUBLISHABLE_KEY,
+    clerkPublishableKey: process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY,
     eas: {
       projectId: "2447171b-3c6c-4260-ad6a-655bcc2fdd0e",
     },

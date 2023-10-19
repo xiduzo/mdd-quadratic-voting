@@ -36,9 +36,11 @@ export const Event: FC<Props> = ({
           </Typography>
         </View>
       </View>
-      <View className="mt-12">
+      <View className="mt-12 flex-grow justify-center">
         <Typography intent="2xl">{title}</Typography>
-        <Typography intent="sm">{description}</Typography>
+        <Typography intent="sm" className="truncate">
+          {description}
+        </Typography>
       </View>
       <View className="mt-9">
         <Button title="Vote" intent="action" size="sm" />

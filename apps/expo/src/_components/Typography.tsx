@@ -28,13 +28,20 @@ interface Props
 const typography = cva("text-text", {
   variants: {
     intent: {
-      "4xl": "font-Poppins_900Black text-3xl",
-      "3xl": "font-Poppins_800ExtraBold text-2xl",
-      "2xl": "font-Poppins_700Bold text-xl",
-      xl: "font-Poppins_600SemiBold text-xs",
-      lg: "font-Poppins_500Medium text-xs",
-      base: "font-Poppins_400Regular text-base",
-      sm: "font-Poppins_300Light text-xs",
+      "4xl": "text-3xl",
+      "3xl": "text-2xl",
+      "2xl": "text-xl",
+      xl: "text-xs",
+      lg: "text-xs",
+      base: "text-base",
+      sm: "text-xs",
+      // "4xl": "font-Poppins_900Black text-3xl",
+      // "3xl": "font-Poppins_800ExtraBold text-2xl",
+      // "2xl": "font-Poppins_700Bold text-xl",
+      // xl: "font-Poppins_600SemiBold text-xs",
+      // lg: "font-Poppins_500Medium text-xs",
+      // base: "font-Poppins_400Regular text-base",
+      // sm: "font-Poppins_300Light text-xs",
     },
     dimmed: {
       true: "opacity-40",

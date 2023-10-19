@@ -10,6 +10,7 @@ import type { FormData } from "../index";
 export const Step1 = () => {
   const { setValue, getValues } = useFormContext<FormData>();
   const [image, setImage] = useState<string | undefined>(getValues("imageUri"));
+
   const pickDocument = async () => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
@@ -19,9 +20,11 @@ export const Step1 = () => {
         quality: 1,
       });
 
-      if (!result.canceled && result.assets[0]?.uri) {
-        setImage(result.assets[0].uri);
-        setValue("imageUri", result.assets[0].uri);
+      if (!result.canceled && result.assets[0]) {
+        const asset = result.assets[0];
+        setImage(asset.uri);
+
+        setValue("imageUri", asset as unknown as string);
       }
     } catch {
       // Do some catching

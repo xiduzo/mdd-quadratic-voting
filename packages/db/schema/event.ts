@@ -1,14 +1,20 @@
 import { relations } from "drizzle-orm";
-import { integer, text, uuid } from "drizzle-orm/pg-core";
+import { date, integer, text, timestamp, uuid } from "drizzle-orm/pg-core";
 
 import { pgTable } from "./_table";
 
 export const events = pgTable("event", {
   id: uuid("id").defaultRandom().primaryKey(),
+  createdAt: timestamp("created_at", { precision: 6, withTimezone: true })
+    .notNull()
+    .defaultNow(),
   secret: uuid("secret").defaultRandom(),
-  name: text("name").notNull(),
+  title: text("name").notNull(),
   description: text("description").notNull(),
   credits: integer("credits").default(100),
+  imageUri: text("image_uri").notNull(),
+  startDate: date("start_date"),
+  endDate: date("end_date"),
 });
 
 export const eventRelations = relations(events, ({ many }) => ({

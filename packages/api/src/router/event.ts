@@ -1,7 +1,14 @@
+import { del, put } from "@vercel/blob";
 import { z } from "zod";
 
 import type { Placeholder } from "@acme/db";
-import { createInsertSchema, createSelectSchema, eq, schema } from "@acme/db";
+import {
+  createInsertSchema,
+  createSelectSchema,
+  desc,
+  eq,
+  schema,
+} from "@acme/db";
 
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
@@ -18,6 +25,12 @@ export const eventRouter = createTRPCRouter({
   all: publicProcedure.query(({ ctx }) => {
     return ctx.db.query.events.findMany();
   }),
+  latest: publicProcedure.query(({ ctx }) => {
+    return ctx.db.query.events.findMany({
+      limit: 3,
+      orderBy: desc(schema.events.createdAt),
+    });
+  }),
   byId: publicProcedure
     .input(createSelectSchema(schema.events))
     .query(({ ctx, input }) => {
@@ -32,9 +45,18 @@ export const eventRouter = createTRPCRouter({
     .input(createEventSchema)
     .mutation(({ ctx, input }) => {
       return ctx.db.transaction(async (trx) => {
+        const blob = await put(
+          `event-images/${input.event.title}/`,
+          input.event.imageUri,
+          { access: "public" },
+        );
+        console.log({ blob });
         const event = await trx
           .insert(schema.events)
-          .values(input.event)
+          .values({
+            ...input.event,
+            imageUri: blob.url,
+          })
           .returning();
 
         const firstEvent = event[0];
@@ -53,8 +75,15 @@ export const eventRouter = createTRPCRouter({
         }
       });
     }),
-  delete: publicProcedure.input(z.number()).mutation(({ ctx, input }) => {
-    return ctx.db.delete(schema.post).where(eq(schema.post.id, input));
+  delete: publicProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
+    const event = await ctx.db.query.events.findFirst({
+      where: eq(schema.events.id, input),
+      columns: { imageUri: true },
+    });
+
+    if (event) await del(event.imageUri);
+
+    return ctx.db.delete(schema.events).where(eq(schema.events.id, input));
   }),
 });
 

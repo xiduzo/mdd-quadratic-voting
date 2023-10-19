@@ -1,74 +1,63 @@
-import React, { useCallback } from "react";
-import Constants from "expo-constants";
+import React, { useCallback, useEffect, useState } from "react";
+import { View } from "react-native";
 import { Stack } from "expo-router";
 import * as SecureStore from "expo-secure-store";
+import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import * as Updates from "expo-updates";
-import { ClerkProvider } from "@clerk/clerk-expo";
 import {
-  Poppins_100Thin,
-  Poppins_100Thin_Italic,
-  Poppins_200ExtraLight,
-  Poppins_200ExtraLight_Italic,
   Poppins_300Light,
-  Poppins_300Light_Italic,
   Poppins_400Regular,
-  Poppins_400Regular_Italic,
   Poppins_500Medium,
-  Poppins_500Medium_Italic,
   Poppins_600SemiBold,
-  Poppins_600SemiBold_Italic,
   Poppins_700Bold,
-  Poppins_700Bold_Italic,
   Poppins_800ExtraBold,
-  Poppins_800ExtraBold_Italic,
   Poppins_900Black,
-  Poppins_900Black_Italic,
   useFonts,
 } from "@expo-google-fonts/poppins";
 
 import { Header } from "~/_components/Header";
 import { TRPCProvider } from "~/utils/api";
 
+SplashScreen.preventAutoHideAsync();
+
 // This is the main layout of the app
 // It wraps your pages with the providers they need
 const RootLayout = () => {
+  const [appIsReady, setAppIsReady] = useState(false);
+
   const [fontsLoaded, fontError] = useFonts({
-    Poppins_100Thin,
-    Poppins_100Thin_Italic,
-    Poppins_200ExtraLight,
-    Poppins_200ExtraLight_Italic,
     Poppins_300Light,
-    Poppins_300Light_Italic,
     Poppins_400Regular,
-    Poppins_400Regular_Italic,
     Poppins_500Medium,
-    Poppins_500Medium_Italic,
     Poppins_600SemiBold,
-    Poppins_600SemiBold_Italic,
     Poppins_700Bold,
-    Poppins_700Bold_Italic,
     Poppins_800ExtraBold,
-    Poppins_800ExtraBold_Italic,
     Poppins_900Black,
-    Poppins_900Black_Italic,
   });
 
-  if (!fontsLoaded || fontError) return null;
+  useEffect(() => {
+    if (!fontsLoaded) return;
+
+    SplashScreen.hideAsync().catch(console.error);
+    return setAppIsReady(true);
+  }, [fontsLoaded, fontError]);
+
+  // if (!appIsReady) return null;
 
   return (
-    <ClerkProvider
-      tokenCache={tokenCache}
-      publishableKey={
-        Constants.expoConfig?.extra?.clerkPublishableKey as string
-      }
-    >
-      <Updater />
-      <TRPCProvider>
-        <StatusBar />
+    // <ClerkProvider
+    //   tokenCache={tokenCache}
+    //   publishableKey="pk_test_c3VtbWFyeS1zaGFkLTU2LmNsZXJrLmFjY291bnRzLmRldiQ"
+    // >
+    <TRPCProvider>
+      {/* <Updater /> */}
+      <StatusBar />
+      <View className="flex-1">
         <Stack screenOptions={{ header: Header }} />
-      </TRPCProvider>
-    </ClerkProvider>
+      </View>
+    </TRPCProvider>
+    // </ClerkProvider>
   );
 };
 

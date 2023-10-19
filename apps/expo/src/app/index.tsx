@@ -2,47 +2,44 @@ import React, { useEffect, useRef } from "react";
 import { Animated, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Svg, { Path } from "react-native-svg";
-import { Link, useRouter } from "expo-router";
-import { useAuth, useOAuth } from "@clerk/clerk-expo";
+import { Link } from "expo-router";
 
 import { Egg, Votey } from "~/_components";
-import { Button } from "~/_components/Button";
 import { Typography } from "~/_components/Typography";
-import { useWarmUpBrowser } from "~/hooks/useWarmUpBrowser";
 
 const HomePage = () => {
-  const { replace } = useRouter();
-  useWarmUpBrowser();
+  // const { replace } = useRouter();
+  // useWarmUpBrowser();
 
   const eggAnimation = useRef(new Animated.Value(600)).current;
 
-  const { startOAuthFlow } = useOAuth({ strategy: "oauth_discord" });
-  const { sessionId } = useAuth();
+  // const { startOAuthFlow } = useOAuth({ strategy: "oauth_discord" });
+  // const { sessionId } = useAuth();
 
-  const handleSignInWithDiscordPress = React.useCallback(async () => {
-    try {
-      const { createdSessionId, setActive } = await startOAuthFlow();
-      if (createdSessionId) {
-        await setActive?.({ session: createdSessionId });
-        replace("/event/");
-      } else {
-        // console.log({ signIn, signUp, authSessionResult });
-        // Modify this code to use signIn or signUp to set this missing requirements you set in your dashboard.
-        throw new Error(
-          "There are unmet requirements, modify this else to handle them",
-        );
-      }
-    } catch (err) {
-      console.log(JSON.stringify(err, null, 2));
-      console.log("error signing in", err);
-    }
-  }, [startOAuthFlow, replace]);
+  // const handleSignInWithDiscordPress = React.useCallback(async () => {
+  //   try {
+  //     const { createdSessionId, setActive } = await startOAuthFlow();
+  //     if (createdSessionId) {
+  //       await setActive?.({ session: createdSessionId });
+  //       replace("/event/");
+  //     } else {
+  //       // console.log({ signIn, signUp, authSessionResult });
+  //       // Modify this code to use signIn or signUp to set this missing requirements you set in your dashboard.
+  //       throw new Error(
+  //         "There are unmet requirements, modify this else to handle them",
+  //       );
+  //     }
+  //   } catch (err) {
+  //     console.log(JSON.stringify(err, null, 2));
+  //     console.log("error signing in", err);
+  //   }
+  // }, [startOAuthFlow, replace]);
 
-  useEffect(() => {
-    if (!sessionId) return;
+  // useEffect(() => {
+  //   if (!sessionId) return;
 
-    replace("/event/");
-  }, [sessionId, replace]);
+  //   replace("/event/");
+  // }, [sessionId, replace]);
 
   useEffect(() => {
     Animated.spring(eggAnimation, {
@@ -96,11 +93,11 @@ const HomePage = () => {
           voting system.
         </Typography>
 
-        <Button
+        {/* <Button
           endIcon="chevron-right"
           title="Sign in"
           onPress={handleSignInWithDiscordPress}
-        />
+        /> */}
         <Link href="/event/">
           <Typography>event</Typography>
         </Link>
