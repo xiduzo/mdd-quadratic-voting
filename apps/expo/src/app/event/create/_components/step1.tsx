@@ -22,9 +22,11 @@ export const Step1 = () => {
 
       if (!result.canceled && result.assets[0]) {
         const asset = result.assets[0];
+
         setImage(asset.uri);
 
-        setValue("imageUri", asset as unknown as string);
+        // TODO upload image
+        setValue("imageUri", asset.uri);
       }
     } catch {
       // Do some catching

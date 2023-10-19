@@ -52,7 +52,8 @@ const EventPage = () => {
             data={data ?? []}
             renderItem={({ item, index }) => (
               <Event
-                key={index}
+                id={item.id}
+                key={item.id}
                 isActive={activeIndex === index}
                 extraClass="min-w-[60vw] max-w-[60vw] mx-4 h-[30vh]"
                 title={item.title}
@@ -80,6 +81,7 @@ const EventPage = () => {
         </Typography>
         <View className="space-between flex w-full flex-row px-8">
           <Event
+            id="1"
             size="sm"
             extraClass="grow"
             title="test event big"
@@ -89,6 +91,7 @@ const EventPage = () => {
             endDate={new Date()}
           />
           <Event
+            id="2"
             size="sm"
             extraClass="grow ml-4"
             title="test event"

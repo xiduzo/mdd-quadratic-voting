@@ -43,7 +43,7 @@ const RootLayout = () => {
     return setAppIsReady(true);
   }, [fontsLoaded, fontError]);
 
-  // if (!appIsReady) return null;
+  if (!appIsReady) return null;
 
   return (
     // <ClerkProvider

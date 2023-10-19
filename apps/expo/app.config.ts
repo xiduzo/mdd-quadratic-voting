@@ -2,7 +2,7 @@ import type { ExpoConfig } from "@expo/config";
 
 const version = "1.0.2"; // EAS VERSION
 // Should be bumped every time a new build is made
-const buildNumber = "15"; // EAS VERSION
+const buildNumber = "16"; // EAS VERSION
 
 const defineConfig = (): ExpoConfig => ({
   name: "votey",

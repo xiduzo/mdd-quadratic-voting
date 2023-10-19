@@ -10,20 +10,20 @@ export const EggBasket: FC<Props> = ({ filledPercentage }) => {
     <View className="items-center">
       <View className="translate-y-14 flex-row space-x-2">
         <EggSmall
-          className={filledPercentage >= 80 ? "opacity-60" : "opacity-0"}
+          className={filledPercentage >= 60 ? "opacity-60" : "opacity-0"}
         />
         <EggSmall
-          className={filledPercentage >= 100 ? "opacity-60" : "opacity-0"}
+          className={filledPercentage >= 80 ? "opacity-60" : "opacity-0"}
         />
       </View>
       <View className="translate-y-5 flex-row space-x-2">
-        <View className={filledPercentage >= 20 ? "opacity-100" : "opacity-0"}>
+        <View className={filledPercentage >= 15 ? "opacity-100" : "opacity-0"}>
           <EggWithEyes />
         </View>
-        <View className={filledPercentage >= 40 ? "opacity-100" : "opacity-0"}>
+        <View className={filledPercentage > 0 ? "opacity-100" : "opacity-0"}>
           <EggWithEyes />
         </View>
-        <View className={filledPercentage >= 60 ? "opacity-100" : "opacity-0"}>
+        <View className={filledPercentage >= 30 ? "opacity-100" : "opacity-0"}>
           <EggWithEyes />
         </View>
       </View>

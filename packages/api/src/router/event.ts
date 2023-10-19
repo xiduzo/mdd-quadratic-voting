@@ -1,4 +1,4 @@
-import { del, put } from "@vercel/blob";
+import { del } from "@vercel/blob";
 import { z } from "zod";
 
 import type { Placeholder } from "@acme/db";
@@ -31,31 +31,30 @@ export const eventRouter = createTRPCRouter({
       orderBy: desc(schema.events.createdAt),
     });
   }),
-  byId: publicProcedure
-    .input(createSelectSchema(schema.events))
-    .query(({ ctx, input }) => {
-      return ctx.db.query.events.findFirst({
-        where: eq(schema.events.id, input.id),
-        with: {
-          options: true,
-        },
-      });
-    }),
+  byId: publicProcedure.input(z.string()).query(({ ctx, input }) => {
+    return ctx.db.query.events.findFirst({
+      where: eq(schema.events.id, input),
+      with: {
+        options: true,
+      },
+    });
+  }),
   create: publicProcedure
     .input(createEventSchema)
     .mutation(({ ctx, input }) => {
       return ctx.db.transaction(async (trx) => {
-        const blob = await put(
-          `event-images/${input.event.title}/`,
-          input.event.imageUri,
-          { access: "public" },
-        );
-        console.log({ blob });
+        //TODO: image upload
+        // console.log({ event: input.event.imageUri });
+        // const blob = await put(
+        //   `event-images/${input.event.title}/`,
+        //   input.event.imageUri,
+        //   { access: "public" },
+        // );
+        // console.log({ blob });
         const event = await trx
           .insert(schema.events)
           .values({
             ...input.event,
-            imageUri: blob.url,
           })
           .returning();
 
