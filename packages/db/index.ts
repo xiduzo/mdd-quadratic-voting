@@ -4,8 +4,9 @@ import { drizzle } from "drizzle-orm/vercel-postgres";
 import * as auth from "./schema/auth";
 import * as event from "./schema/event";
 import * as post from "./schema/post";
+import * as vote from "./schema/vote";
 
-export const schema = { ...auth, ...post, ...event };
+export const schema = { ...auth, ...post, ...event, ...vote };
 
 export { pgTable as tableCreator } from "./schema/_table";
 

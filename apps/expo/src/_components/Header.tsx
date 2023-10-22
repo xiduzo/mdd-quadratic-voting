@@ -13,7 +13,6 @@ export const Header: FC<NativeStackHeaderProps> = (props) => {
   const { back } = useRouter();
   const safeArea = useSafeAreaInsets();
 
-  console.log("header", props.back, props.options.headerBackVisible);
   return (
     <View
       className="flex-row items-center justify-between bg-primary px-6 pb-2"

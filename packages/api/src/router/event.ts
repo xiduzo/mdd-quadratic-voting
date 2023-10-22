@@ -10,10 +10,12 @@ import {
   schema,
 } from "@acme/db";
 
-import { createTRPCRouter, publicProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 const createEventSchema = z.object({
-  event: createInsertSchema(schema.events),
+  event: createInsertSchema(schema.events, {
+    createdBy: z.undefined(),
+  }),
   options: z.array(
     createInsertSchema(schema.eventOptions, {
       eventId: z.string().optional(),
@@ -31,6 +33,12 @@ export const eventRouter = createTRPCRouter({
       orderBy: desc(schema.events.createdAt),
     });
   }),
+  my: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.query.events.findMany({
+      where: eq(schema.events.createdBy, ctx.session.id),
+      orderBy: desc(schema.events.createdAt),
+    });
+  }),
   byId: publicProcedure.input(z.string()).query(({ ctx, input }) => {
     return ctx.db.query.events.findFirst({
       where: eq(schema.events.id, input),
@@ -39,7 +47,7 @@ export const eventRouter = createTRPCRouter({
       },
     });
   }),
-  create: publicProcedure
+  create: protectedProcedure
     .input(createEventSchema)
     .mutation(({ ctx, input }) => {
       return ctx.db.transaction(async (trx) => {
@@ -55,6 +63,7 @@ export const eventRouter = createTRPCRouter({
           .insert(schema.events)
           .values({
             ...input.event,
+            createdBy: ctx.session.id,
           })
           .returning();
 

@@ -19,7 +19,9 @@ import {
 import { Header } from "~/_components/Header";
 import { TRPCProvider } from "~/utils/api";
 
-SplashScreen.preventAutoHideAsync();
+export { ErrorBoundary } from "expo-router";
+
+SplashScreen.preventAutoHideAsync().catch(console.log);
 
 // This is the main layout of the app
 // It wraps your pages with the providers they need
@@ -38,7 +40,6 @@ const RootLayout = () => {
 
   useEffect(() => {
     if (!fontsLoaded) return;
-
     SplashScreen.hideAsync().catch(console.error);
     return setAppIsReady(true);
   }, [fontsLoaded, fontError]);
@@ -47,8 +48,9 @@ const RootLayout = () => {
 
   return (
     // <ClerkProvider
-    //   tokenCache={tokenCache}
     //   publishableKey="pk_test_c3VtbWFyeS1zaGFkLTU2LmNsZXJrLmFjY291bnRzLmRldiQ"
+    //   // publishableKey="pk_live_Y2xlcmsuc2FuZGVyYm9lci5ubCQ"
+    //   // tokenCache={tokenCache}
     // >
     <TRPCProvider>
       <Updater />

@@ -10,8 +10,17 @@ import { EggBasket } from "./_components/EggBasket";
 import { EggButton } from "./_components/EggButton";
 
 const EventDetailPage = () => {
+  const context = api.useContext();
   const { id } = useGlobalSearchParams();
   const { data } = api.event.byId.useQuery(id as unknown as string);
+  const { data: userVotes } = api.vote.byEventId.useQuery(
+    id as unknown as string,
+  );
+  const { mutateAsync, isLoading } = api.vote.create.useMutation({
+    onSuccess: async () => {
+      await context.vote.byEventId.invalidate();
+    },
+  });
 
   const [creditsSpend, setCreditsSpend] = useState<Record<string, number>>({});
 
@@ -23,8 +32,6 @@ const EventDetailPage = () => {
       return acc + curr * curr;
     }, 0);
 
-    console.log({ spend });
-
     return (data?.credits ?? 100) - spend;
   }, [creditsSpend, data, update]);
 
@@ -35,6 +42,26 @@ const EventDetailPage = () => {
 
     return Math.abs(nextTokens - currentTokens);
   }, [creditsSpend, update, selectedItem]);
+
+  useEffect(() => {
+    if (!userVotes?.options) return;
+
+    console.log("credits from server");
+
+    const credits = userVotes.options.reduce(
+      (acc, curr) => {
+        acc[curr.id] = curr.votes[0]?.credits ?? 0;
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
+
+    console.log({ credits });
+
+    setCreditsSpend((_) => credits);
+  }, [userVotes]);
+
+  console.log({ creditsSpend });
 
   const incrementCreditsSpend = useCallback(() => {
     if (!selectedItem) return;
@@ -54,21 +81,14 @@ const EventDetailPage = () => {
     setUpdate((prev) => !prev);
   }, [selectedItem]);
 
-  useEffect(() => {
-    if (!data) return;
-
-    setCreditsSpend(
-      data.options.reduce(
-        (acc, option) => {
-          acc[option.id] = 0;
-          return acc;
-        },
-        {} as Record<string, number>,
-      ),
+  const handleSubmit = useCallback(async () => {
+    await mutateAsync(
+      Object.keys(creditsSpend).map((optionId) => ({
+        optionId,
+        credits: creditsSpend[optionId] ?? 0,
+      })),
     );
-  }, [data]);
-
-  console.log(credits, nextCredits);
+  }, [creditsSpend, mutateAsync]);
 
   return (
     <View className="bg-primary">
@@ -152,7 +172,13 @@ const EventDetailPage = () => {
               }
             />
           </View>
-          <Button intent="action" title="Submit" className="grow" />
+          <Button
+            intent="action"
+            title="Submit"
+            className="grow"
+            disabled={isLoading}
+            onPress={handleSubmit}
+          />
         </View>
       </View>
     </View>

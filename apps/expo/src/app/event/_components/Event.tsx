@@ -1,10 +1,11 @@
 import type { FC } from "react";
 import { TouchableWithoutFeedback, View } from "react-native";
 import type { ViewProps } from "react-native-svg/lib/typescript/fabric/utils";
-import { Link } from "expo-router";
+import { useRouter } from "expo-router";
 import type { VariantProps } from "class-variance-authority";
 import { cva } from "class-variance-authority";
 
+import { Button } from "~/_components/Button";
 import { Typography } from "~/_components/Typography";
 
 export const Event: FC<Props> = ({
@@ -21,6 +22,7 @@ export const Event: FC<Props> = ({
   onPress,
   ...viewProps
 }) => {
+  const { push } = useRouter();
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <View
@@ -46,13 +48,13 @@ export const Event: FC<Props> = ({
           </Typography>
         </View>
         <View className="mt-9">
-          <Link
-            href={`/event/${id}`}
-            className="w-full rounded-lg bg-white text-center text-primary"
-          >
-            <Typography className="text-primary">Vote</Typography>
-            {/* <Button title="Vote" intent="action" size="sm" className="w-full" /> */}
-          </Link>
+          <Button
+            title="Vote"
+            intent="action"
+            size="sm"
+            className="w-full"
+            onPress={() => push(`/event/${id}`)}
+          />
         </View>
       </View>
     </TouchableWithoutFeedback>

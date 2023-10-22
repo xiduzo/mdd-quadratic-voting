@@ -2,39 +2,28 @@ import React, { useEffect, useRef } from "react";
 import { Animated, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Svg, { Path } from "react-native-svg";
-import { Link } from "expo-router";
+import { useRouter } from "expo-router";
 
 import { Egg, Votey } from "~/_components";
+import { Button } from "~/_components/Button";
 import { Typography } from "~/_components/Typography";
+import { useSecureStore } from "~/hooks/useSecureStore";
 
 const HomePage = () => {
-  // const { replace } = useRouter();
-  // useWarmUpBrowser();
+  const { replace, push } = useRouter();
+  const { getToken } = useSecureStore("token");
+  // const { sessionId } = useAuth();
 
   const eggAnimation = useRef(new Animated.Value(600)).current;
 
-  // const { startOAuthFlow } = useOAuth({ strategy: "oauth_discord" });
-  // const { sessionId } = useAuth();
-
-  // const handleSignInWithDiscordPress = React.useCallback(async () => {
-  //   try {
-  //     const { createdSessionId, setActive } = await startOAuthFlow();
-  //     if (createdSessionId) {
-  //       await setActive?.({ session: createdSessionId });
-  //       replace("/event/");
-  //     } else {
-  //       // console.log({ signIn, signUp, authSessionResult });
-  //       // Modify this code to use signIn or signUp to set this missing requirements you set in your dashboard.
-  //       throw new Error(
-  //         "There are unmet requirements, modify this else to handle them",
-  //       );
-  //     }
-  //   } catch (err) {
-  //     console.log(JSON.stringify(err, null, 2));
-  //     console.log("error signing in", err);
-  //   }
-  // }, [startOAuthFlow, replace]);
-
+  useEffect(() => {
+    getToken()
+      ?.then((token) => {
+        if (!token) return;
+        replace("/event/");
+      })
+      .catch(console.log);
+  }, [replace, getToken]);
   // useEffect(() => {
   //   if (!sessionId) return;
 
@@ -93,14 +82,15 @@ const HomePage = () => {
           voting system.
         </Typography>
 
-        {/* <Button
+        <Button
+          title="Sign up"
           endIcon="chevron-right"
-          title="Sign in"
-          onPress={handleSignInWithDiscordPress}
-        /> */}
-        <Link href="/event/">
+          onPress={() => push("/sign-up/")}
+        />
+        {/* <SignInWithOAuth /> */}
+        {/* <Link href="/event/">
           <Typography>event</Typography>
-        </Link>
+        </Link> */}
       </View>
     </SafeAreaView>
   );

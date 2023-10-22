@@ -7,6 +7,8 @@ import superjson from "superjson";
 
 import type { AppRouter } from "@acme/api";
 
+import { useSecureStore } from "~/hooks/useSecureStore";
+
 /**
  * A set of typesafe hooks for consuming your API.
  */
@@ -48,16 +50,23 @@ const getBaseUrl = () => {
 export function TRPCProvider(props: { children: React.ReactNode }) {
   const [queryClient] = React.useState(() => new QueryClient());
   // const { userId } = useAuth();
+  const { getToken } = useSecureStore("token");
+  const { getToken: getUser } = useSecureStore("user");
+
   const [trpcClient] = React.useState(() =>
     api.createClient({
       transformer: superjson,
       links: [
         httpBatchLink({
           url: `${getBaseUrl()}/api/trpc`,
-          headers() {
+          async headers() {
+            const token = await getToken();
+            const user = await getUser();
+
             const headers = new Map<string, string>();
             headers.set("x-trpc-source", "expo-react");
-            // if (userId) headers.set("authorization", userId);
+            if (token) headers.set("authorization", token);
+            if (user) headers.set("user", user);
             return Object.fromEntries(headers);
           },
         }),

@@ -52,12 +52,21 @@ export const createTRPCContext = async (opts: {
   req?: Request;
   auth?: User;
 }) => {
-  const clerk = Clerk({ secretKey: process.env.CLERK_SECRET_KEY! });
+  const _ = Clerk({ secretKey: process.env.CLERK_SECRET_KEY! });
 
-  const userId = opts.req?.headers.get("authorization");
+  // const userId = opts.req?.headers.get("authorization");
+  // const session = userId ? await clerk.users.getUser(userId) : null;
+
+  const userToken = opts.req?.headers.get("authorization");
+  const userName = opts.req?.headers.get("user");
   const source = opts.req?.headers.get("x-trpc-source") ?? "unknown";
 
-  const session = userId ? await clerk.users.getUser(userId) : null;
+  const session: User | null = userToken
+    ? ({
+        id: userToken,
+        username: userName,
+      } as User)
+    : null;
 
   console.log(">>> tRPC Request from", source, "by", session?.username);
 

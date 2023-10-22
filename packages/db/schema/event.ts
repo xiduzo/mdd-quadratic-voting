@@ -2,12 +2,14 @@ import { relations } from "drizzle-orm";
 import { date, integer, text, timestamp, uuid } from "drizzle-orm/pg-core";
 
 import { pgTable } from "./_table";
+import { votes } from "./vote";
 
 export const events = pgTable("event", {
   id: uuid("id").defaultRandom().primaryKey(),
   createdAt: timestamp("created_at", { precision: 6, withTimezone: true })
     .notNull()
     .defaultNow(),
+  createdBy: uuid("created_by").notNull(),
   secret: uuid("secret").defaultRandom(),
   title: text("name").notNull(),
   description: text("description").notNull(),
@@ -28,21 +30,15 @@ export const eventOptions = pgTable("event_option", {
   description: text("description").notNull(),
 });
 
-export const eventOptionRelations = relations(eventOptions, ({ one }) => ({
-  event: one(events, {
-    fields: [eventOptions.eventId],
-    references: [events.id],
+export const eventOptionRelations = relations(
+  eventOptions,
+  ({ one, many }) => ({
+    event: one(events, {
+      fields: [eventOptions.eventId],
+      references: [events.id],
+    }),
+    votes: many(votes, {
+      relationName: "votes",
+    }),
   }),
-}));
-
-// TODO: link to eventOption
-// TODO: link to user
-export const votes = pgTable("event_vote", {
-  credits: integer("credits").default(0),
-});
-
-// export const voteRelations = relations(votes, ({ one }) => ({
-//     user: one(users, {
-
-//     })
-// }))
+);

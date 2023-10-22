@@ -65,7 +65,7 @@ const CreateEvent = () => {
     },
   });
 
-  const { mutateAsync } = api.event.create.useMutation({
+  const { mutateAsync, isLoading } = api.event.create.useMutation({
     onSuccess: () => {
       console.log("success");
     },
@@ -143,7 +143,7 @@ const CreateEvent = () => {
             <Button
               onPress={formMethods.handleSubmit(handleSubmit)}
               title="Publish"
-              disabled={shouldDisableButton()}
+              disabled={shouldDisableButton() || isLoading}
               className="grow"
               intent="action"
               endIcon="chevron-right"
