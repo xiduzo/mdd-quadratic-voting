@@ -8,6 +8,11 @@
  */
 import type { User } from "@clerk/backend";
 import { Clerk } from "@clerk/backend";
+import type {
+  SignedInAuthObject,
+  SignedOutAuthObject,
+} from "@clerk/nextjs/api";
+import { getAuth } from "@clerk/nextjs/server";
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
@@ -24,7 +29,7 @@ import { db } from "@acme/db";
  *
  */
 interface CreateContextOptions {
-  session: User | null;
+  auth: SignedInAuthObject | SignedOutAuthObject;
 }
 
 /**
@@ -38,7 +43,7 @@ interface CreateContextOptions {
  */
 const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
-    session: opts.session,
+    auth: opts.auth,
     db,
   };
 };
@@ -48,10 +53,7 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
  * process every request that goes through your tRPC endpoint
  * @link https://trpc.io/docs/context
  */
-export const createTRPCContext = async (opts: {
-  req?: Request;
-  auth?: User;
-}) => {
+export const createTRPCContext = (opts: { req?: Request }) => {
   const _ = Clerk({ secretKey: process.env.CLERK_SECRET_KEY! });
 
   // const userId = opts.req?.headers.get("authorization");
@@ -67,11 +69,21 @@ export const createTRPCContext = async (opts: {
         username: userName,
       } as User)
     : null;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore-next-line
+  const auth = getAuth(opts.req);
 
-  console.log(">>> tRPC Request from", source, "by", session?.username);
+  console.log({ auth });
+
+  console.log(
+    ">>> tRPC Request from",
+    source,
+    "by",
+    auth.user?.emailAddresses ?? "unknown",
+  );
 
   return createInnerTRPCContext({
-    session,
+    auth,
   });
 };
 
@@ -122,13 +134,13 @@ export const publicProcedure = t.procedure;
  * procedure
  */
 const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
-  if (!ctx.session) {
+  if (!ctx.auth.userId) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
   return next({
     ctx: {
       // infers the `session` as non-nullable
-      session: { ...ctx.session, user: ctx.session },
+      auth: ctx.auth,
     },
   });
 });

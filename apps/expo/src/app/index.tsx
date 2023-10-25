@@ -2,33 +2,13 @@ import React, { useEffect, useRef } from "react";
 import { Animated, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Svg, { Path } from "react-native-svg";
-import { useRouter } from "expo-router";
 
 import { Egg, Votey } from "~/_components";
-import { Button } from "~/_components/Button";
+import { SignInWithOAuth } from "~/_components/SignInWithOAuth";
 import { Typography } from "~/_components/Typography";
-import { useSecureStore } from "~/hooks/useSecureStore";
 
 const HomePage = () => {
-  const { replace, push } = useRouter();
-  const { getToken } = useSecureStore("token");
-  // const { sessionId } = useAuth();
-
   const eggAnimation = useRef(new Animated.Value(600)).current;
-
-  useEffect(() => {
-    getToken()
-      ?.then((token) => {
-        if (!token) return;
-        replace("/event/");
-      })
-      .catch(console.log);
-  }, [replace, getToken]);
-  // useEffect(() => {
-  //   if (!sessionId) return;
-
-  //   replace("/event/");
-  // }, [sessionId, replace]);
 
   useEffect(() => {
     Animated.spring(eggAnimation, {
@@ -82,15 +62,19 @@ const HomePage = () => {
           voting system.
         </Typography>
 
-        <Button
+        {/* <Button
+          className="mb-4"
           title="Sign up"
           endIcon="chevron-right"
           onPress={() => push("/sign-up/")}
         />
-        {/* <SignInWithOAuth /> */}
-        {/* <Link href="/event/">
-          <Typography>event</Typography>
-        </Link> */}
+        <Button
+          className="mb-4"
+          title="Sign out"
+          endIcon="chevron-right"
+          onPress={() => signOut()}
+        /> */}
+        <SignInWithOAuth />
       </View>
     </SafeAreaView>
   );

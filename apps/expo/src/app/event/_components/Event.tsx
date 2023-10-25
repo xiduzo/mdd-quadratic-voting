@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import type { FC } from "react";
 import { TouchableWithoutFeedback, View } from "react-native";
 import type { ViewProps } from "react-native-svg/lib/typescript/fabric/utils";
@@ -7,6 +8,7 @@ import { cva } from "class-variance-authority";
 
 import { Button } from "~/_components/Button";
 import { Typography } from "~/_components/Typography";
+import { api } from "~/utils/api";
 
 export const Event: FC<Props> = ({
   endDate,
@@ -23,6 +25,15 @@ export const Event: FC<Props> = ({
   ...viewProps
 }) => {
   const { push } = useRouter();
+  const { data } = api.vote.byEventId.useQuery(id);
+
+  const myCredits = useMemo(() => {
+    return data?.options.reduce((acc, curr) => {
+      return (
+        acc + curr.votes.reduce((_acc, _curr) => _acc + (_curr.credits ?? 0), 0)
+      );
+    }, 0);
+  }, [data]);
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <View
@@ -37,7 +48,7 @@ export const Event: FC<Props> = ({
           </View>
           <View className="rounded-sm bg-white px-2">
             <Typography className="text-slate-900" intent="sm">
-              {tokens}/{maxTokens}
+              {myCredits}/{maxTokens}
             </Typography>
           </View>
         </View>

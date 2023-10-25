@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 import { View } from "react-native";
 import { Stack } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import * as Updates from "expo-updates";
+import { ClerkProvider, SignedIn, SignedOut } from "@clerk/clerk-expo";
 import {
   Poppins_300Light,
   Poppins_400Regular,
@@ -47,19 +48,34 @@ const RootLayout = () => {
   if (!appIsReady) return null;
 
   return (
-    // <ClerkProvider
-    //   publishableKey="pk_test_c3VtbWFyeS1zaGFkLTU2LmNsZXJrLmFjY291bnRzLmRldiQ"
-    //   // publishableKey="pk_live_Y2xlcmsuc2FuZGVyYm9lci5ubCQ"
-    //   // tokenCache={tokenCache}
-    // >
-    <TRPCProvider>
+    <Fragment>
       <Updater />
-      <StatusBar />
-      <View className="flex-1">
-        <Stack screenOptions={{ header: Header }} />
-      </View>
-    </TRPCProvider>
-    // </ClerkProvider>
+      <ClerkProvider
+        publishableKey="pk_test_c3VtbWFyeS1zaGFkLTU2LmNsZXJrLmFjY291bnRzLmRldiQ"
+        // publishableKey="pk_live_Y2xlcmsuc2FuZGVyYm9lci5ubCQ"
+        tokenCache={tokenCache}
+      >
+        <SignedIn>
+          <TRPCProvider>
+            <StatusBar />
+            <View className="max-h-[500px] flex-1">
+              <Stack
+                screenOptions={{ header: Header }}
+                initialRouteName="event"
+              />
+            </View>
+          </TRPCProvider>
+        </SignedIn>
+        <SignedOut>
+          <TRPCProvider>
+            <StatusBar />
+            <View className="flex-1">
+              <Stack screenOptions={{ header: Header }} />
+            </View>
+          </TRPCProvider>
+        </SignedOut>
+      </ClerkProvider>
+    </Fragment>
   );
 };
 

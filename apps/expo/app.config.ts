@@ -2,7 +2,7 @@ import type { ExpoConfig } from "@expo/config";
 
 const version = "1.0.2"; // EAS VERSION
 // Should be bumped every time a new build is made
-const buildNumber = "21"; // EAS VERSION
+const buildNumber = "22"; // EAS VERSION
 
 const defineConfig = (): ExpoConfig => ({
   name: "votey",
@@ -19,6 +19,10 @@ const defineConfig = (): ExpoConfig => ({
   },
   updates: {
     fallbackToCacheTimeout: 0,
+    url: "https://u.expo.dev/5c6aa601-a9f2-4e03-bcd0-b35bb4509af6",
+  },
+  runtimeVersion: {
+    policy: "appVersion",
   },
   assetBundlePatterns: ["**/*"],
   ios: {

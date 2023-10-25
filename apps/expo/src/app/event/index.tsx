@@ -27,7 +27,10 @@ const EventPage = () => {
 
   return (
     <View className="bg-primary">
-      <Stack.Screen options={{ title: "Events", animation: "none" }} />
+      <Stack.Screen
+        options={{ title: "Events", animation: "none" }}
+        name="event"
+      />
       <Navigation activeItem="events" />
       <View className="h-full w-full">
         <Typography intent="2xl" className="mb-4 mt-8 px-8">
