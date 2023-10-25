@@ -2,12 +2,15 @@ import React, { useEffect, useRef } from "react";
 import { Animated, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Svg, { Path } from "react-native-svg";
+import { Redirect } from "expo-router";
+import { useAuth } from "@clerk/clerk-expo";
 
 import { Egg, Votey } from "~/_components";
 import { SignInWithOAuth } from "~/_components/SignInWithOAuth";
 import { Typography } from "~/_components/Typography";
 
 const HomePage = () => {
+  const { signOut } = useAuth();
   const eggAnimation = useRef(new Animated.Value(600)).current;
 
   useEffect(() => {
@@ -21,6 +24,7 @@ const HomePage = () => {
 
   return (
     <SafeAreaView className="bg-primary px-8">
+      <RedirectOnSession />
       <View className="absolute -right-16 top-0">
         <Animated.View style={{ marginTop: eggAnimation }}>
           <View className="absolute left-20 top-40 z-10">
@@ -67,8 +71,8 @@ const HomePage = () => {
           title="Sign up"
           endIcon="chevron-right"
           onPress={() => push("/sign-up/")}
-        />
-        <Button
+        /> */}
+        {/* <Button
           className="mb-4"
           title="Sign out"
           endIcon="chevron-right"
@@ -81,3 +85,11 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
+const RedirectOnSession = () => {
+  const { isSignedIn } = useAuth();
+
+  if (!isSignedIn) return null;
+
+  return <Redirect href="/event/" />;
+};

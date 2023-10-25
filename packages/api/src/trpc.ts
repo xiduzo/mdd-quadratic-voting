@@ -6,8 +6,6 @@
  * tl;dr - this is where all the tRPC server stuff is created and plugged in.
  * The pieces you will need to use are documented accordingly near the end
  */
-import type { User } from "@clerk/backend";
-import { Clerk } from "@clerk/backend";
 import type {
   SignedInAuthObject,
   SignedOutAuthObject,
@@ -54,33 +52,13 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
  * @link https://trpc.io/docs/context
  */
 export const createTRPCContext = (opts: { req?: Request }) => {
-  const _ = Clerk({ secretKey: process.env.CLERK_SECRET_KEY! });
-
-  // const userId = opts.req?.headers.get("authorization");
-  // const session = userId ? await clerk.users.getUser(userId) : null;
-
-  const userToken = opts.req?.headers.get("authorization");
-  const userName = opts.req?.headers.get("user");
   const source = opts.req?.headers.get("x-trpc-source") ?? "unknown";
 
-  const session: User | null = userToken
-    ? ({
-        id: userToken,
-        username: userName,
-      } as User)
-    : null;
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore-next-line
   const auth = getAuth(opts.req);
 
-  console.log({ auth });
-
-  console.log(
-    ">>> tRPC Request from",
-    source,
-    "by",
-    auth.user?.emailAddresses ?? "unknown",
-  );
+  console.log(">>> tRPC Request from", source, "by", auth.userId ?? "unknown");
 
   return createInnerTRPCContext({
     auth,

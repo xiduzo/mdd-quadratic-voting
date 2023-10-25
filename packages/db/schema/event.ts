@@ -9,8 +9,7 @@ export const events = pgTable("event", {
   createdAt: timestamp("created_at", { precision: 6, withTimezone: true })
     .notNull()
     .defaultNow(),
-  createdBy: uuid("created_by").notNull(),
-  secret: uuid("secret").defaultRandom(),
+  createdBy: text("created_by").notNull(),
   title: text("name").notNull(),
   description: text("description").notNull(),
   credits: integer("credits").default(100),

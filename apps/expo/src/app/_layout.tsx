@@ -58,11 +58,8 @@ const RootLayout = () => {
         <SignedIn>
           <TRPCProvider>
             <StatusBar />
-            <View className="max-h-[500px] flex-1">
-              <Stack
-                screenOptions={{ header: Header }}
-                initialRouteName="event"
-              />
+            <View className="flex-1">
+              <Stack screenOptions={{ header: Header }} />
             </View>
           </TRPCProvider>
         </SignedIn>

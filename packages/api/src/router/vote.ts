@@ -16,7 +16,7 @@ export const voteRouter = createTRPCRouter({
     .mutation(({ ctx, input }) => {
       return ctx.db.transaction(async (trx) => {
         await trx.delete(schema.votes).where(
-          eq(schema.votes.by, ctx.session.id) &&
+          eq(schema.votes.by, ctx.auth.userId) &&
             inArray(
               schema.votes.optionId,
               input.map((option) => option.optionId),
@@ -26,8 +26,7 @@ export const voteRouter = createTRPCRouter({
         return trx.insert(schema.votes).values(
           input.map((item) => ({
             ...item,
-            by: ctx.session.id,
-            name: ctx.session.username,
+            by: ctx.auth.userId,
           })),
         );
       });
@@ -43,7 +42,7 @@ export const voteRouter = createTRPCRouter({
           },
           with: {
             votes: {
-              where: eq(schema.votes.by, ctx.session.id),
+              where: eq(schema.votes.by, ctx.auth.userId),
             },
           },
         },

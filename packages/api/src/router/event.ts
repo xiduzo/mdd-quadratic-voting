@@ -35,7 +35,7 @@ export const eventRouter = createTRPCRouter({
   }),
   my: protectedProcedure.query(({ ctx }) => {
     return ctx.db.query.events.findMany({
-      where: eq(schema.events.createdBy, ctx.session.id),
+      where: eq(schema.events.createdBy, ctx.auth.userId),
       orderBy: desc(schema.events.createdAt),
     });
   }),
@@ -63,7 +63,7 @@ export const eventRouter = createTRPCRouter({
           .insert(schema.events)
           .values({
             ...input.event,
-            createdBy: ctx.session.id,
+            createdBy: ctx.auth.userId,
           })
           .returning();
 

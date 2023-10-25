@@ -9,6 +9,11 @@ import { Typography } from "~/_components/Typography";
 import { api } from "~/utils/api";
 import { Event } from "./_components/Event";
 
+export const unstable_settings = {
+  // Ensure any route can link back to `/`
+  initialRouteName: "event",
+};
+
 const EventPage = () => {
   const { data } = api.event.latest.useQuery();
 
@@ -27,10 +32,7 @@ const EventPage = () => {
 
   return (
     <View className="bg-primary">
-      <Stack.Screen
-        options={{ title: "Events", animation: "none" }}
-        name="event"
-      />
+      <Stack.Screen options={{ title: "Events", animation: "none" }} />
       <Navigation activeItem="events" />
       <View className="h-full w-full">
         <Typography intent="2xl" className="mb-4 mt-8 px-8">
