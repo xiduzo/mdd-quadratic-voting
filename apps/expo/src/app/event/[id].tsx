@@ -46,8 +46,6 @@ const EventDetailPage = () => {
   useEffect(() => {
     if (!userVotes?.options) return;
 
-    console.log("credits from server");
-
     const credits = userVotes.options.reduce(
       (acc, curr) => {
         acc[curr.id] = curr.votes[0]?.credits ?? 0;
@@ -56,12 +54,8 @@ const EventDetailPage = () => {
       {} as Record<string, number>,
     );
 
-    console.log({ credits });
-
     setCreditsSpend((_) => credits);
   }, [userVotes]);
-
-  console.log({ creditsSpend });
 
   const incrementCreditsSpend = useCallback(() => {
     if (!selectedItem) return;

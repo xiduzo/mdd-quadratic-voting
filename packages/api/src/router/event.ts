@@ -65,8 +65,6 @@ export const eventRouter = createTRPCRouter({
       .slice(0, 2)
       .map(([id]) => id);
 
-    console.log({ topTwoOptionIds });
-
     if (!topTwoOptionIds.length) return [];
 
     const options = await ctx.db.query.eventOptions.findMany({
@@ -101,7 +99,7 @@ export const eventRouter = createTRPCRouter({
     .input(createEventSchema)
     .mutation(({ ctx, input }) => {
       return ctx.db.transaction(async (trx) => {
-        //TODO: image upload
+        // TODO: image upload
         // console.log({ event: input.event.imageUri });
         // const blob = await put(
         //   `event-images/${input.event.title}/`,

@@ -109,26 +109,6 @@ const EventPage = () => {
               )}
             />
           )}
-          {/* <Event
-            id="1"
-            size="sm"
-            extraClass="grow"
-            title="test event big"
-            description="test description"
-            tokens={4}
-            maxTokens={445}
-            endDate={new Date()}
-          />
-          <Event
-            id="2"
-            size="sm"
-            extraClass="grow ml-4"
-            title="test event"
-            description="test description"
-            tokens={4}
-            maxTokens={445}
-            endDate={new Date()}
-          /> */}
         </View>
       </View>
     </View>

@@ -58,6 +58,8 @@ const parseStep = (step: z.ZodObject<z.ZodRawShape>, values: unknown) => {
 };
 
 const CreateEvent = () => {
+  const context = api.useContext();
+
   const formMethods = useForm<FormData>({
     resolver: zodResolver(formData),
     defaultValues: {
@@ -66,8 +68,9 @@ const CreateEvent = () => {
   });
 
   const { mutateAsync, isLoading } = api.event.create.useMutation({
-    onSuccess: () => {
-      console.log("success");
+    onSuccess: async () => {
+      // TODO: move to event stats page
+      await context.event.invalidate();
     },
   });
   const watch = formMethods.watch();
@@ -89,7 +92,6 @@ const CreateEvent = () => {
 
   const handleSubmit = useCallback(
     async (data: FormData) => {
-      console.log(data);
       await mutateAsync({
         event: {
           title: data.title,
