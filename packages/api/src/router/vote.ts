@@ -9,14 +9,14 @@ export const voteRouter = createTRPCRouter({
     .input(
       z.array(
         createInsertSchema(schema.votes, {
-          by: z.undefined(),
+          createdBy: z.undefined(),
         }),
       ),
     )
     .mutation(({ ctx, input }) => {
       return ctx.db.transaction(async (trx) => {
         await trx.delete(schema.votes).where(
-          eq(schema.votes.by, ctx.auth.userId) &&
+          eq(schema.votes.createdBy, ctx.auth.userId) &&
             inArray(
               schema.votes.optionId,
               input.map((option) => option.optionId),
@@ -26,7 +26,7 @@ export const voteRouter = createTRPCRouter({
         return trx.insert(schema.votes).values(
           input.map((item) => ({
             ...item,
-            by: ctx.auth.userId,
+            createdBy: ctx.auth.userId,
           })),
         );
       });
@@ -42,7 +42,7 @@ export const voteRouter = createTRPCRouter({
           },
           with: {
             votes: {
-              where: eq(schema.votes.by, ctx.auth.userId),
+              where: eq(schema.votes.createdBy, ctx.auth.userId),
             },
           },
         },

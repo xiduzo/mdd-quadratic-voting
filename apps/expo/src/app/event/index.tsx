@@ -15,7 +15,10 @@ export const unstable_settings = {
 };
 
 const EventPage = () => {
-  const { data } = api.event.latest.useQuery();
+  const { data: latest } = api.event.latest.useQuery();
+  const { data: trending } = api.event.trending.useQuery();
+
+  console.log({ latest: latest?.length, trending: trending?.length });
 
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -38,13 +41,9 @@ const EventPage = () => {
         <Typography intent="2xl" className="mb-4 mt-8 px-8">
           New
         </Typography>
-        {data && (
+        {latest && (
           <FlashList
-            estimatedItemSize={300}
-            estimatedListSize={{
-              width: Dimensions.get("window").width,
-              height: 300,
-            }}
+            estimatedItemSize={250}
             extraData={activeIndex}
             decelerationRate="fast"
             snapToInterval={Dimensions.get("window").width * 0.4}
@@ -54,7 +53,7 @@ const EventPage = () => {
             contentContainerStyle={{
               paddingHorizontal: 8,
             }}
-            data={data ?? []}
+            data={latest}
             renderItem={({ item, index }) => (
               <Event
                 id={item.id}
@@ -63,7 +62,6 @@ const EventPage = () => {
                 extraClass="min-w-[60vw] max-w-[60vw] mx-4 h-[30vh]"
                 title={item.title}
                 description={item.description}
-                tokens={4}
                 maxTokens={item.credits ?? 100}
                 endDate={new Date(item.endDate ?? "")}
               />
@@ -72,7 +70,7 @@ const EventPage = () => {
         )}
 
         <View className="my-4 flex w-full flex-row justify-center space-x-2">
-          {Array.from({ length: (data ?? []).length }).map((_, index) => (
+          {Array.from({ length: (latest ?? []).length }).map((_, index) => (
             <View
               className={`h-2 w-2 rounded-full ${
                 index === activeIndex ? "bg-slate-400" : "bg-slate-600"
@@ -85,7 +83,33 @@ const EventPage = () => {
           Trending
         </Typography>
         <View className="space-between flex w-full flex-row px-8">
-          <Event
+          {trending && (
+            <FlashList
+              estimatedItemSize={200}
+              decelerationRate="fast"
+              scrollEnabled={false}
+              onViewableItemsChanged={handleViewableItemsChanged}
+              snapToAlignment="center"
+              horizontal
+              contentContainerStyle={{
+                paddingHorizontal: 8,
+              }}
+              data={trending}
+              renderItem={({ item }) => (
+                <Event
+                  id={item.id}
+                  key={item.id}
+                  size="sm"
+                  extraClass="grow"
+                  title={item.title}
+                  description={item.description}
+                  maxTokens={item.credits ?? 100}
+                  endDate={new Date(item.endDate ?? "")}
+                />
+              )}
+            />
+          )}
+          {/* <Event
             id="1"
             size="sm"
             extraClass="grow"
@@ -104,7 +128,7 @@ const EventPage = () => {
             tokens={4}
             maxTokens={445}
             endDate={new Date()}
-          />
+          /> */}
         </View>
       </View>
     </View>

@@ -12,7 +12,6 @@ import { api } from "~/utils/api";
 
 export const Event: FC<Props> = ({
   endDate,
-  tokens,
   maxTokens,
   isActive,
   title,
@@ -75,7 +74,6 @@ export const Event: FC<Props> = ({
 interface Props extends VariantProps<typeof event>, ViewProps {
   endDate: Date;
   id: string;
-  tokens: number;
   maxTokens: number;
   title: string;
   description: string;

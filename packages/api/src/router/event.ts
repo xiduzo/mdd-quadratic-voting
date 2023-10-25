@@ -7,6 +7,8 @@ import {
   createSelectSchema,
   desc,
   eq,
+  gt,
+  inArray,
   schema,
 } from "@acme/db";
 
@@ -30,6 +32,54 @@ export const eventRouter = createTRPCRouter({
   latest: publicProcedure.query(({ ctx }) => {
     return ctx.db.query.events.findMany({
       limit: 3,
+      orderBy: desc(schema.events.createdAt),
+    });
+  }),
+  trending: publicProcedure.query(async ({ ctx }) => {
+    const lastVotes = await ctx.db.query.votes.findMany({
+      where: gt(
+        schema.votes.createdAt,
+        new Date(Date.now() - 1000 * 60 * 60 * 24),
+      ),
+      limit: 100,
+      orderBy: desc(schema.votes.createdAt),
+      columns: {
+        optionId: true,
+      },
+    });
+
+    const mostCommonOptionIds = lastVotes.reduce(
+      (acc, vote) => {
+        if (acc[vote.optionId]) {
+          acc[vote.optionId] += 1;
+        } else {
+          acc[vote.optionId] = 1;
+        }
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
+
+    const topTwoOptionIds = Object.entries(mostCommonOptionIds)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 2)
+      .map(([id]) => id);
+
+    console.log({ topTwoOptionIds });
+
+    if (!topTwoOptionIds.length) return [];
+
+    const options = await ctx.db.query.eventOptions.findMany({
+      where: inArray(schema.eventOptions.id, topTwoOptionIds),
+      columns: {
+        eventId: true,
+      },
+    });
+
+    const eventIds = options.map((option) => option.eventId);
+
+    return ctx.db.query.events.findMany({
+      where: inArray(schema.events.id, eventIds),
       orderBy: desc(schema.events.createdAt),
     });
   }),
