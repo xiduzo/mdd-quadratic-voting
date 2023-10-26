@@ -1,5 +1,6 @@
 import React, { Fragment, useCallback, useEffect, useState } from "react";
 import { View } from "react-native";
+import Constants from "expo-constants";
 import { Stack } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import * as SplashScreen from "expo-splash-screen";
@@ -51,7 +52,7 @@ const RootLayout = () => {
     <Fragment>
       <Updater />
       <ClerkProvider
-        publishableKey="pk_test_c3VtbWFyeS1zaGFkLTU2LmNsZXJrLmFjY291bnRzLmRldiQ"
+        publishableKey={Constants.expoConfig?.extra?.CLERK_PUBLISHABLE_KEY}
         // publishableKey="pk_live_Y2xlcmsuc2FuZGVyYm9lci5ubCQ"
         tokenCache={tokenCache}
       >
